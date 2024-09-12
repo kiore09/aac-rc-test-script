@@ -5,6 +5,8 @@ name: aac-rc-memstore-js-1
 
 cmdbId: 12345
 
+
+
 # Enter a owner team value (the default value is telus),
 # your github username, and your email address
 ownerTeam: telus
