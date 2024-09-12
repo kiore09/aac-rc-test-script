@@ -1,0 +1,452 @@
+site_name: arch-code-template-base-dev
+site_description: Documentation for arch-code-template-base-dev
+plugins:
+  - techdocs-core
+nav:
+  - Templates:
+      - Api Js:
+          - Gql Psql:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Sql: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/sql.md
+                      - Graphql: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/graphql.md
+                      - Log Metrics: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Secret Setup: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Logging Nodejs: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Unit Tests Nodejs: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js/gql-psql/{{cookiecutter.name}}/docs/codeql.md
+          - Postgresql:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Sql: templates/api-js/postgresql/{{cookiecutter.name}}/docs/sql.md
+                      - Log Metrics: templates/api-js/postgresql/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/postgresql/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/postgresql/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Secret Setup: templates/api-js/postgresql/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Logging Nodejs: templates/api-js/postgresql/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/postgresql/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js/postgresql/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/postgresql/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js/postgresql/{{cookiecutter.name}}/docs/codeql.md
+          - Pubsub:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Pub Sub: templates/api-js/pubsub/{{cookiecutter.name}}/docs/pub-sub.md
+                      - Log Metrics: templates/api-js/pubsub/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/pubsub/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/pubsub/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/api-js/pubsub/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/pubsub/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js/pubsub/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/pubsub/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - LocalFile Dependency: templates/api-js/pubsub/{{cookiecutter.name}}/docs/localFile-dependency.md
+                      - CodeQL Integration Js: templates/api-js/pubsub/{{cookiecutter.name}}/docs/codeql.md
+          - Basic:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js/basic/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/basic/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/basic/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/api-js/basic/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/basic/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js/basic/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/basic/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js/basic/{{cookiecutter.name}}/docs/codeql.md
+          - Memstore:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js/memstore/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/memstore/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/memstore/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - MemstoreRedis: templates/api-js/memstore/{{cookiecutter.name}}/docs/memstoreRedis.md
+                      - Logging Nodejs: templates/api-js/memstore/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/memstore/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js/memstore/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/memstore/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js/memstore/{{cookiecutter.name}}/docs/codeql.md
+          - api-client:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js/api-client/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/api-client/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/api-client/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Secret Setup: templates/api-js/api-client/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Api Call Setup: templates/api-js/api-client/{{cookiecutter.name}}/docs/api-call-setup.md
+                      - Logging Nodejs: templates/api-js/api-client/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/api-client/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js/api-client/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/api-client/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js/api-client/{{cookiecutter.name}}/docs/codeql.md
+          - Firestore:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js/firestore/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/firestore/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/firestore/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/api-js/firestore/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/firestore/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Firestore Console: templates/api-js/firestore/{{cookiecutter.name}}/docs/firestore-console.md
+                      - Unit Tests Nodejs: templates/api-js/firestore/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/firestore/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js/firestore/{{cookiecutter.name}}/docs/codeql.md
+          - Gcstorage:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - LocalFile Dependency: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/localFile-dependency.md
+                      - CodeQL Integration Js: templates/api-js/gcstorage/{{cookiecutter.name}}/docs/codeql.md
+          - Secretmgr:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Secret Setup: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Logging Nodejs: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js/secretmgr/{{cookiecutter.name}}/docs/codeql.md
+      - Cqrs Js:
+          - Cqrs Cmd:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Sql: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/sql.md
+                      - Cqrs: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/cqrs.md
+                      - Log Metrics: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Secret Setup: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Logging Nodejs: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Unit Tests Nodejs: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/docs/codeql.md
+          - Cqrs Query:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Cqrs: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/cqrs.md
+                      - Log Metrics: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Firestore Console: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/firestore-console.md
+                      - Unit Tests Nodejs: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/docs/codeql.md
+          - Cqrs Pubsub Trigger Cf:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Cqrs: templates/cqrs-js/cqrs-pubsub-trigger-cf/{{cookiecutter.name}}/docs/cqrs.md
+      - Api Java:
+          - Gql Psql:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Sql: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/sql.md
+                      - Graphql: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/graphql.md
+                      - Log Metrics: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/logging-java.md
+                      - Secret Setup: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/secret-setup.md
+                      - External Config: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/gql-psql/{{cookiecutter.name}}/docs/codeql.md
+          - Postgresql:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Sql: templates/api-java/postgresql/{{cookiecutter.name}}/docs/sql.md
+                      - Log Metrics: templates/api-java/postgresql/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/postgresql/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/postgresql/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/postgresql/{{cookiecutter.name}}/docs/logging-java.md
+                      - Secret Setup: templates/api-java/postgresql/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Cloud Scheduler: templates/api-java/postgresql/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/postgresql/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/postgresql/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/postgresql/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/postgresql/{{cookiecutter.name}}/docs/codeql.md
+          - Pubsub:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Pub Sub: templates/api-java/pubsub/{{cookiecutter.name}}/docs/pub-sub.md
+                      - Log Metrics: templates/api-java/pubsub/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/pubsub/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/pubsub/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/pubsub/{{cookiecutter.name}}/docs/logging-java.md
+                      - Cloud Scheduler: templates/api-java/pubsub/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/pubsub/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/pubsub/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/pubsub/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/pubsub/{{cookiecutter.name}}/docs/codeql.md
+          - Basic:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-java/basic/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/basic/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/basic/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/basic/{{cookiecutter.name}}/docs/logging-java.md
+                      - Cloud Scheduler: templates/api-java/basic/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/basic/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/basic/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/basic/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/basic/{{cookiecutter.name}}/docs/codeql.md
+          - Memstore:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-java/memstore/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/memstore/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/memstore/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/memstore/{{cookiecutter.name}}/docs/logging-java.md
+                      - MemstoreRedis: templates/api-java/memstore/{{cookiecutter.name}}/docs/memstoreRedis.md
+                      - Cloud Scheduler: templates/api-java/memstore/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/memstore/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/memstore/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/memstore/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/memstore/{{cookiecutter.name}}/docs/codeql.md
+          - api-client:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-java/api-client/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/api-client/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/api-client/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/api-client/{{cookiecutter.name}}/docs/logging-java.md
+                      - Secret Setup: templates/api-java/api-client/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Api Call Setup: templates/api-java/api-client/{{cookiecutter.name}}/docs/api-call-setup.md
+                      - Bdd Tests Java: templates/api-java/api-client/{{cookiecutter.name}}/docs/bdd-tests-java.md
+                      - Cloud Scheduler: templates/api-java/api-client/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/api-client/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/api-client/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/api-client/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/api-client/{{cookiecutter.name}}/docs/codeql.md
+          - Firestore:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-java/firestore/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/firestore/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/firestore/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/firestore/{{cookiecutter.name}}/docs/logging-java.md
+                      - Cloud Scheduler: templates/api-java/firestore/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/firestore/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/firestore/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Firestore Console: templates/api-java/firestore/{{cookiecutter.name}}/docs/firestore-console.md
+                      - Backstage Automate: templates/api-java/firestore/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/firestore/{{cookiecutter.name}}/docs/codeql.md
+          - Gcstorage:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/logging-java.md
+                      - Cloud Scheduler: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - LocalFile Dependency: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/localFile-dependency.md
+                      - CodeQL Integration Java: templates/api-java/gcstorage/{{cookiecutter.name}}/docs/codeql.md
+          - Secretmgr:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/logging-java.md
+                      - Secret Setup: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Cloud Scheduler: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/secretmgr/{{cookiecutter.name}}/docs/codeql.md
+          - Unleash-client:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/logging-java.md
+                      - Cloud Scheduler: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/codeql.md
+                      - Secret Setup: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Unleash: templates/api-java/unleash-client/{{cookiecutter.name}}/docs/unleash.md
+      - Cqrs Java:
+          - Cqrs Cmd:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Sql: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/sql.md
+                      - Cqrs: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/cqrs.md
+                      - Log Metrics: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/logging-java.md
+                      - Secret Setup: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/secret-setup.md
+                      - External Config: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/docs/codeql.md
+          - Cqrs Query:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Cqrs: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/cqrs.md
+                      - Log Metrics: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/logging-java.md
+                      - External Config: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Firestore Console: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/firestore-console.md
+                      - Backstage Automate: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/docs/codeql.md
+          - Cqrs Pubsub Trigger Cf:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Cqrs: templates/cqrs-java/cqrs-pubsub-trigger-cf/{{cookiecutter.name}}/docs/cqrs.md
+      - Eda Java:
+          - Eda Subscriber:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Pub Sub: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/pub-sub.md
+                      - Log Metrics: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/logging-java.md
+                      - External Config: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/eda-java/eda-subscriber/{{cookiecutter.name}}/docs/codeql.md
+          - Eda Publisher:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/logging-java.md
+                      - External Config: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Firestore Console: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/firestore-console.md
+                      - Backstage Automate: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/eda-java/eda-publisher/{{cookiecutter.name}}/docs/codeql.md
+      - Eda Js:
+          - Eda Fs Trigger Cf:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - README: templates/eda-js/eda-fs-trigger-cf/{{cookiecutter.name}}/docs/README.md
+          - Eda Publisher:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Publisher Service: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/publisher-service.md
+                      - Unit Tests Nodejs: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/eda-js/eda-publisher/{{cookiecutter.name}}/docs/codeql.md
+          - Eda Subscriber:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Unit Tests Nodejs: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - Subscriber Service: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/subscriber-service.md
+                      - CodeQL Integration Js: templates/eda-js/eda-subscriber/{{cookiecutter.name}}/docs/codeql.md
+      - Api Js Fastify:
+          - Basic:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Secret Setup: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Logging Nodejs: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - CodeQL Integration Js: templates/api-js-fastify/basic/{{cookiecutter.name}}/docs/codeql.md
+          - Firestore:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Firestore Console: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/firestore-console.md
+                      - Unit Tests Nodejs: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js-fastify/firestore/{{cookiecutter.name}}/docs/codeql.md
+          - Gcstorage:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - LocalFile Dependency: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/localFile-dependency.md
+                      - CodeQL Integration Js: templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/docs/codeql.md
+          - Secretmgr:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Secret Setup: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Logging Nodejs: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - CodeQL Integration Js: templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/docs/codeql.md
+          - Memstore:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - MemstoreRedis: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/memstoreRedis.md
+                      - Logging Nodejs: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Js: templates/api-js-fastify/memstore/{{cookiecutter.name}}/docs/codeql.md
+          - Pubsub:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Pub Sub: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/pub-sub.md
+                      - Log Metrics: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Nodejs: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/logging-nodejs.md
+                      - Cloud Scheduler: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - Unit Tests Nodejs: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/unit-tests-nodejs.md
+                      - Backstage Automate: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - LocalFile Dependency: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/localFile-dependency.md
+                      - CodeQL Integration Js: templates/api-js-fastify/pubsub/{{cookiecutter.name}}/docs/codeql.md    
+          - Unleash-client:
+              - "{{cookiecutter.name}}":
+                  - Docs:
+                      - Log Metrics: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/log-metrics.md
+                      - Risk Engine: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/risk-engine.md
+                      - Gke Cron Job: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/gke-cron-job.md
+                      - Logging Java: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/logging-java.md
+                      - Cloud Scheduler: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/cloud-scheduler.md
+                      - External Config: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/env-config.md
+                      - Unit Tests Java: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/unit-tests-java.md
+                      - Backstage Automate: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/backstage-automate.md
+                      - CodeQL Integration Java: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/codeql.md
+                      - Secret Setup: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/secret-setup.md
+                      - Unleash: templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/docs/unleash.md                                      

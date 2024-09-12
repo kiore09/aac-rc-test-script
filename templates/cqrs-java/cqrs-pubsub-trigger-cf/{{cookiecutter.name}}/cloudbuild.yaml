@@ -1,0 +1,37 @@
+steps:
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: Deploy CQRS Trigger function
+    args:
+      - gcloud
+      - functions
+      - deploy
+      - ${_FUNCTION_TITLE}
+      - --source=${_SOURCE}
+      - --no-gen2
+      - --runtime=${_RUNTIME}
+      - --trigger-topic=${_CQRS_TOPIC}
+      - --region=${_REGION}
+      - --entry-point=${_FUNCTION_NAME}
+      - --set-env-vars=GCP_PROJECT=${_PROJECT_ID},FIRESTORE_COLLECTION=${_FIRESTORE_COLLECTION},CQRS_TOPIC=${_CQRS_TOPIC}
+      - --ingress-settings=internal-only
+
+substitutions:
+  # Name of the function that will show up in the GCP console
+  _FUNCTION_TITLE: CQRS-PubSub-Trgger-CloudFunction
+
+  # Fully qualified name of the function class containing the entry point
+  _FUNCTION_NAME: com.samples.telus.CQRSPubSubCloudFunction
+
+  # Points to the directory containing the pom.xml file
+  _SOURCE: .
+
+  # Runtime language and version
+  _RUNTIME: java17
+
+  # Region where the function will be deployed
+  _REGION: northamerica-northeast1
+
+  # Environment variables passed to the function
+  _FIRESTORE_COLLECTION: {{cookiecutter.cqrsPubsubTriggerCf.firestoreCollection}}
+  _CQRS_TOPIC: {{cookiecutter.cqrsPubsubTriggerCf.cqrsTopic}}
+  _PROJECT_ID: {{cookiecutter.cqrsPubsubTriggerCf.projectId}}

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Sample Unleash App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .true {
+            color: green;
+        }
+
+        .false {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Sample Unleash App</h1>
+<hr class="solid">
+    <div>
+        <p>Toggle status for "<%= toggleName %>":</p>
+        <p class="<%= toggle ? 'true' : 'false' %>"><%= time %>: <%= toggle %></p>
+        <form action="/unleashFlags">
+            <input type="submit" value="Refresh toggle" />
+        </form>
+    </div>
+<hr class="solid">
+<div style="display: flex; flex-direction: column;">
+    <a href="/">Go back</a>
+    <% if(locals.error) { %>
+        <div>ERROR: Exception Caught - <%= error %> </div>
+    <% } %>
+</div>
+</body>
+</html>

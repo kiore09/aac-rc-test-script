@@ -1,0 +1,34 @@
+{
+  "system-view": {
+    "system": {
+      "name": "{{ cookiecutter.name }}",
+      "owner-group": "{{ cookiecutter.ownerTeam }}",
+      "network": "",
+      "cmdb-id": "{{ cookiecutter.cmdbId }}",
+      "component": {
+        "name": "{{ cookiecutter.name }}",
+        "description": "",
+        "cmdb-id": "{{ cookiecutter.cmdbId }}",
+        "type": "api",
+        "definition-url": "",
+        "lifecycle": "development",
+        "network": "",
+        "helm": "",
+        "gcp-project": "",
+        "gke-project": "cdo-gke-private-np",
+        "gke-cluster": "",
+        "gke-namespace": "",
+        "links": [
+          {
+            "url": "https://github.com/telus/{{ cookiecutter.name }}",
+            "description": "GitHub Repository"
+          }
+        ],
+        "consumes-apis": [],
+        "consumed-by": [],
+        "dependencies": []
+      }
+    }
+  }
+}
+

@@ -1,0 +1,13 @@
+{
+    "request": {
+        "method": "POST",
+        "url": "/telus/common/sendEmailProxy/v1"
+    },
+    "response": {
+        "status": 202,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "../__files/sendEmailSuccess.json"
+    }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>CQRS Command Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>CQRS Command Demo</h1>
+
+    <a href="/">Click Here</a> to return to the index page
+
+    <hr class="solid">
+
+    <p>Enter customer info:</p>
+    
+    <!-- On submission, redirect to POST /command -->
+    <form action="#" th:action="@{/command}" th:object="${backing}" method="post">
+
+      <!-- Map text input to message field on backing object -->
+      <p>First Name: <input type="text" th:field="*{firstName}" required/></p>
+      <p>Last Name: <input type="text" th:field="*{lastName}" required/></p>
+      <p>Date of birth: <input type="date" th:field="*{dateOfBirth}" required/></p>
+      
+      <p><input type="submit" value="Create Customer" /> <input type="reset" value="Reset" /></p>
+
+    </br>===========</br>
+    <p>Result:</p>
+    <p th:text="${excdata}" />  <!-- Element to display error message if any -->
+    <p th:text="${result}" />  <!-- Element to display result message if any -->
+
+  </form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: {{ cookiecutter.name }}
+  description: sample Fastify NodeJS app to implement secret manager
+  tags:
+    - cdo
+    - node
+    - api
+    - aac
+  annotations:
+    backstage.io/techdocs-ref: dir:.
+    github.com/project-slug: telus/{{ cookiecutter.name }}
+    go.telus.com/cmdb-id: '{{ cookiecutter.cmdbId }}'
+spec:
+  type: service
+  owner: {{ cookiecutter.ownerTeam }}
+  lifecycle: testing

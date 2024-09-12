@@ -1,0 +1,29 @@
+// Make sure you are on the VPN, then setup the proxy for cloud sdk
+// This needs to be set for each new SDK terminal
+set HTTP_PROXY=http://198.161.14.25:8080
+set HTTPS_PROXY=http://198.161.14.25:8080
+
+======================
+First-time setup steps
+======================
+
+// Initial setup workflow for gcloud 
+gcloud init
+
+// Set active project - use the full project id
+gcloud config set project cdo-gke-private-np-1a8686
+
+// Get the current cluster credentials
+gcloud container clusters get-credentials private-na-ne1-001 --zone northamerica-northeast1
+
+// Set namespace context within the current project
+kubectl config set-context --current --namespace=<your namespace>
+======================
+
+// Get pods
+kubectl get pods
+
+// Port forward a pod to localhost (requires port-forwarding permissions on GKE)
+// 8081:8080 implies 8081 on local machine targets 8080 on the container
+// Ctrl+C to stop port forwarding
+kubectl port-forward <copy pod name here> 8081:8080 -n <your namespace>

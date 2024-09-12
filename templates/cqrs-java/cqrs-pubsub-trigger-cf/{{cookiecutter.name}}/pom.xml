@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.telus</groupId>
+	<artifactId>{{ cookiecutter.name }}</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>{{ cookiecutter.name }}</name>
+	<description>Demo project for CQRS Cloud Function</description>
+
+	<properties>
+		<maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+	</properties>
+
+  <dependencies>
+    <!-- Required for Function primitives -->
+    <dependency>
+      <groupId>com.google.cloud.functions</groupId>
+      <artifactId>functions-framework-api</artifactId>
+      <version>1.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.11.0</version>
+    </dependency>
+
+    <!-- For Cloud Firestore -->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-firestore</artifactId>
+      <version>3.25.1</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Enables local testing via localhost with "mvn function:run" -->
+			<plugin>
+				<groupId>com.google.cloud.functions</groupId>
+				<artifactId>function-maven-plugin</artifactId>
+				<version>0.11.0</version>
+				<configuration>
+					<functionTarget>com.samples.telus.CQRSPubSubCloudFunction</functionTarget>
+					<port>8080</port>
+				</configuration>
+			</plugin>
+    </plugins>
+  </build>
+</project>

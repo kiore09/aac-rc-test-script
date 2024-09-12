@@ -1,0 +1,80 @@
+{% raw %}
+# This is a workflow to run unit tests, report code coverage
+name: Code Coverage - NodeJS
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    types: [opened, reopened, edited]
+
+
+jobs:
+  # Execute JavaScript unit tests
+  code-coverage:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+    steps:
+      # Check out your GitHub repo into the container executing these steps
+      - uses: actions/checkout@v4
+
+      # Install Node in order to install all dependencies and run tests
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Install application dependencies
+      - name: Install Dependencies
+        working-directory: app
+        run: npm install
+
+      # Run unit tests, then report results and code coverage
+      - name: "Run Tests and Report Results (Non-fork PR)"
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        if: ${{ !github.event.pull_request.head.repo.fork }}
+        id: tests
+        with:
+          test-script: npm run test -- --coverage --coverageReporters="json-summary" --coverageReporters="lcov"
+          working-directory: app
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      
+      # Run unit tests (do not publish report on PRs from forks)
+      - name: "Run Tests, do not Report Results (Fork PR)"
+        uses: ArtiomTr/jest-coverage-report-action@v2
+        if: ${{ github.event.pull_request.head.repo.fork }}
+        with:
+          test-script: npm run test -- --coverage --coverageReporters="json-summary" --coverageReporters="lcov"
+          working-directory: app
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          annotations: none
+          output: report-markdown
+      # Commit code coverage files generated during the prior tests to your branch
+      - name: Archive Code Coverage Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: app/coverage
+
+      # Autocommit the files to PR (if any)
+      - name: Checkout PR
+        if: steps.tests.outcome == 'success' && github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.pull_request.number }}
+    
+      - name: Push changes
+        if: steps.tests.outcome == 'success' && github.event_name == 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.email "208695+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Bot [bot]" 
+          git add app/coverage/*.json || true
+          git commit -m "chore: save coverage report" || true
+          git push || true
+
+{% endraw %}

@@ -1,0 +1,13 @@
+# [Maven] ignore generated target folder and its content
+target/
+
+# ignore log file
+*.log
+
+# [Visual Studio Code] uncomment the lines below if using VSC to ignore generated files
+#.vscode/
+
+# [Eclipse] uncomment the lines below if using Eclipse IDE to ignore generated files
+#.settings/
+#.classpath
+#.project

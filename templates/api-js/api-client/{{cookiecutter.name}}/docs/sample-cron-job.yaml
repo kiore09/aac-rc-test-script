@@ -1,0 +1,64 @@
+## This is a sample GKE Cron Job for scheduling a web api invoking job.
+## To deploy this Cron job to your GKE cluster, follow the steps below:
+## =============================================================================
+## 1- Start a GCP Cloud Shell session from your local development system.
+## 2- set the proxy
+##    set HTTP_PROXY=http://198.161.14.25:8080
+##    set HTTPS_PROXY=http://198.161.14.25:8080
+##
+## 3- install kubectl
+##    gcloud components install kubectl
+## 
+## 4- set current project
+##    gcloud config set project <your gcp project id>
+##
+## 5- set namespace context
+##    kubectl config set-context --current --namespace=<Your GKE namespace>
+##
+## 6- update the "schedule" section according to your interval requirements
+## 7- update the "curl" url to point to your target pod:port/api endpoint.
+## 8- deploy the cron job
+##    kubectl apply -f sample-cron-job.yaml
+## =============================================================================
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+    name: sample-get-users-job
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:        
+        spec:
+          securityContext:
+            runAsUser: 1001
+            runAsGroup: 1001
+            fsGroup: 1001
+            supplementalGroups:
+              - 1001        
+          restartPolicy: OnFailure  
+          containers:
+            - name: get-users-cronjob
+              image: docker.io/curlimages/curl
+              imagePullPolicy: IfNotPresent
+              command:
+              - /bin/sh
+              - -c
+              - curl 'http://<pod name or ip>:8080/users'
+              resources:
+                limits:
+                  cpu: 500m
+                  memory: 512Mi
+                requests:
+                  cpu: 250m
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - NET_RAW
+                runAsGroup: 1001
+                runAsUser: 1001

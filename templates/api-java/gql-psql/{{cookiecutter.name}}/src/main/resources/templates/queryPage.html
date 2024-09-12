@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+    <body>
+        <h1>GraphQL API + PostgresQL Demo</h1>
+
+        <p>The following is a simple demo application for querying objects using GraphQL. <a href="/">Click Here</a> to return to the index page</p>
+
+        <hr class="solid">
+
+        <form action="#" th:action="@{/queryApi}" th:object="${queryObj}" method="post">
+
+            <p>Enter a query to access the database:</p>
+
+            <textarea rows="12" cols="45" th:field="*{queryString}" name = "textholder"></textarea>
+     
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+
+        <hr class="solid">
+
+        <p>Returned Data:</br>===========</p>
+
+        <pre><span th:text="*{queryObj.queryResponse}"/></pre>
+    </body>
+</html>

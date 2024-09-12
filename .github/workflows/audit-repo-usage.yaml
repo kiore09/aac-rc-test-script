@@ -1,0 +1,126 @@
+name: Audit Repo Usage
+on:   
+  workflow_dispatch:
+    inputs:
+      apiSample:
+        type: string
+        description: The template sample selected by user
+      repoName:
+        type: string
+        description: The repository created
+      ownerName:
+        type: string
+        description: The repo owner's github username
+      ownerEmail:
+        type: string
+        description: The owner email address
+      prLanguage:
+        type: string
+        description: The selected programming language
+      cicdSelected:
+        type: string
+        description: CICD option is slected
+      source:
+        type: string
+        description: Initiated from backstage or github
+  
+permissions:
+  contents: write
+
+env:
+  PROJECT_ID: cdo-arch-as-code-np-d35334
+  REGION: northamerica-northeast1
+  
+jobs:  
+  audit-wf: 
+    runs-on: ubuntu-latest 
+    name: audit wf...
+    permissions:
+      contents: 'write'      
+      id-token: 'write'
+    env:
+      SECRET_ID: projects/767430792619/secrets/arc-gh-wrkflw-token
+      WL_SERVICE_ACCOUNT: sar-arc-gh-wrkflw-token@cdo-eptools-helper-np-b4c0da.iam.gserviceaccount.com
+      PROJECT_ID: cdo-arch-as-code-np-d35334
+      REGION: northamerica-northeast1  
+      is_issue: false
+    steps:
+      - name: setting up gcp auth
+        uses: actions/checkout@v4
+        
+      - id: 'gcp_auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ secrets.CDO_WORKLOAD_IDENTITY_PROVIDER_GCP }}
+          service_account: '${{ env.WL_SERVICE_ACCOUNT }}'
+          
+      - id: 'secrets'
+        uses: 'google-github-actions/get-secretmanager-secrets@v2'
+        with:
+          secrets: |-
+            token:${{ env.SECRET_ID }}
+      - name: store_token
+        run: |
+          echo "GCP_TOKEN=${{ steps.secrets.outputs.token }}" >> $GITHUB_ENV
+
+      - name: info
+        if: ${{github.event_name == 'issues' && github.event.action == 'opened' && github.event.issue.title == 'new-repo-event'}}
+        run: |
+          echo "event_name: ${{github.event_name}}"
+          echo "event.action: ${{github.event.action}}"
+          echo 'payload=${{github.event.issue.body}}' >> $GITHUB_ENV           
+          echo "is_issue=true" >> $GITHUB_ENV
+      
+      - name: check owner
+        run: |
+          tmp=$(echo ${{ github.event.inputs.ownerName }} | sed -E 's/.*\/([^/[:space:]]+)$/\1/')
+          owner=${tmp#"user:"}          
+          echo "ownername=$owner" >> $GITHUB_ENV   
+          
+      - name: check cicd
+        if: ${{github.event_name == 'workflow_dispatch'}}
+        run: |  
+          echo 'iscicd=false' >> $GITHUB_ENV
+          if [ "${{ github.event.inputs.cicdSelected }}" == "cicd-true" ];
+          then
+            echo 'iscicd=true' >> $GITHUB_ENV
+          fi
+      - name: check dispatch-event
+        if: ${{github.event_name == 'workflow_dispatch'}}
+        run: | 
+          echo "dispatch-event"          
+          echo 'payload={"repo_name": "${{ github.event.inputs.repoName }}","repo_owner": "${{ env.ownername }}", "owner_email": "${{ github.event.inputs.ownerEmail }}","repo_language": "${{ github.event.inputs.prLanguage }}","repo_template": "${{github.event.inputs.apiSample}}", "cicd_selected": ${{ env.iscicd }}, "source": "${{github.event.inputs.source}}" }' >> $GITHUB_ENV
+
+      - uses: slackapi/slack-github-action@v1.19.0
+        with:
+          payload: ${{ env.payload }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_URL }}
+
+      - name: setting up auth
+        uses: actions/checkout@v4
+      
+      - id: auth
+        name: Authenticate to Google using WIF
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.CDO_WORKLOAD_IDENTITY_PROVIDER_GCP }} 
+          service_account: 'repo-auditor-sa@cdo-arch-as-code-np-d35334.iam.gserviceaccount.com'
+          project_id:  ${{ env.PROJECT_ID }}
+          token_format: 'id_token'
+          export_environment_variables: true
+          id_token_include_email: true
+          id_token_audience: 'gh-wf'
+          create_credentials_file: true
+          #access_token_lifetime: '300s'
+        
+      - name: setup gcloud
+        uses: 'google-github-actions/setup-gcloud@v2'
+      
+      - name: set account
+        run: |
+          gcloud config set account repo-auditor-sa@cdo-arch-as-code-np-d35334.iam.gserviceaccount.com
+      - name: publish to topic
+        run: |
+          gcloud pubsub topics publish projects/cdo-arch-as-code-np-d35334/topics/repo-setup-topic --message='${{env.payload}}' 
+      

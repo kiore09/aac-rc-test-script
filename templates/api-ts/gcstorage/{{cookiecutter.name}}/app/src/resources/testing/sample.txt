@@ -1,0 +1,5 @@
+This is a sample input file
+for the unit testing framework.
+
+The file parser should read this line by line
+and then collect the lines into a list.

@@ -1,0 +1,374 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: arch-501-dlp
+  title: DLP Template
+  description: A sample backend app with Cloud Function. You can find more information about this template [here](https://simplify.telus.com/docs/architecture-as-code/docs/dlp.md).
+  tags:
+    - node
+    - javascript
+    - java
+    - spring-boot
+    - gcp
+    - arch-as-code
+    - dlp
+    - cloud-function
+spec:
+  owner: Architecture as Code
+  templater: Arch-as-code-team
+  type: service
+  path: "."
+    # these are the steps which are rendered in the frontend with the form input
+  parameters:
+    - title: Application Info
+      type: object
+      description: "Test DLP Note: Before creating your repository, login using your GitHub Account. GitHub repo name must not yet exist, and can only be: alphanumeric [a-z0-9], lowercase, hyphen-separated"
+      required:
+        - repoUrl      
+        - language
+        - user
+        - emailAddress
+      properties:
+        user:
+            title: GitHub Account
+            type: string
+            pattern: '^\S+$'
+            description: Select your GitHub Account
+            ui:field: OwnerPicker
+            ui:options:
+              catalogFilter:
+                kind: User
+
+        emailAddress:
+          title: Email Address
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+          type: string
+          description: Enter your user email address
+
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+            allowedOwners:
+              - telus
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+        owner:
+          title: Owner
+          type: string
+          pattern: '^\S+$'
+          description: 'Select the owner team of the app.'
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: telus      
+        cmdb_id:
+          title: CMDB ID
+          type: number
+          description: Enter your application CMDB ID. If not entered, default value is 12345.
+          default: 12345
+
+        language:
+          title: Language
+          description: Choose the language you would like to use
+          type: string
+          enum:
+            - java
+            - nodejsExpress
+            - nodetsExpress
+          enumNames:
+            - java
+            - NodeJS (Express)
+            - NodeTS (Typescript)
+          default: java
+          ui:widget: radio
+
+      dependencies:
+        language:
+          oneOf:
+            - properties:
+                language:
+                  ui:widget: radio
+                  enum:
+                    - java
+              allOf:
+                - properties:
+                    cloudFunctionVersion:
+                      title: Cloud Function version
+                      description: Choose the version you would like to use
+                      type: string
+                      enum:
+                        - 1gen
+                        - 2gen
+                      enumNames:
+                        - 1st gen
+                        - 2nd gen
+                      default: 1gen
+                      ui:widget: radio
+                    sourceBucket:
+                      title: Source Bucket
+                      description: The source name of the storage bucket in your GCP project to use in the app (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                    sensitiveBucket:
+                      title: Sensitive Bucket
+                      description: The target name of the storage bucket in your GCP project to use in the app to store sensitive data (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                    nonSensitiveBucket:
+                      title: Non-Sensitive Bucket
+                      description: The target name of the storage bucket in your GCP project to use in the app to store non-sensitive data (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                  required:
+                    - nonSensitiveBucket
+                    - sensitiveBucket
+                    - sourceBucket
+            - properties:
+                language:
+                  ui:widget: radio
+                  enum:
+                    - nodejsExpress
+              
+              allOf:
+                - properties:
+                    cloudFunctionVersion:
+                      title: Cloud Function version
+                      description: Choose the version you would like to use
+                      type: string
+                      enum:
+                        - 1gen
+                        - 2gen
+                      enumNames:
+                        - 1st gen
+                        - 2nd gen
+                      default: 1gen
+                      ui:widget: radio
+                    sourceBucket:
+                      title: Source Bucket
+                      description: The source name of the storage bucket in your GCP project to use in the app (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                    sensitiveBucket:
+                      title: Sensitive Bucket
+                      description: The target name of the storage bucket in your GCP project to use in the app to store sensitive data (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                    nonSensitiveBucket:
+                      title: Non-Sensitive Bucket
+                      description: The target name of the storage bucket in your GCP project to use in the app to store non-sensitive data (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                  required:
+                    - nonSensitiveBucket
+                    - sensitiveBucket
+                    - sourceBucket
+            - properties:
+                language:
+                  ui:widget: radio
+                  enum:
+                    - nodetsExpress
+              
+              allOf:
+                - properties:
+                    cloudFunctionVersion:
+                      title: Cloud Function version
+                      description: Choose the version you would like to use
+                      type: string
+                      enum:
+                        - 1gen
+                        - 2gen
+                      enumNames:
+                        - 1st gen
+                        - 2nd gen
+                      default: 1gen
+                      ui:widget: radio
+                    sourceBucket:
+                      title: Source Bucket
+                      description: The source name of the storage bucket in your GCP project to use in the app (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                    sensitiveBucket:
+                      title: Sensitive Bucket
+                      description: The target name of the storage bucket in your GCP project to use in the app to store sensitive data (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                    nonSensitiveBucket:
+                      title: Non-Sensitive Bucket
+                      description: The target name of the storage bucket in your GCP project to use in the app to store non-sensitive data (automatically suffixed with _np).
+                      type: string
+                      pattern: '^\S+$'
+                  required:
+                    - nonSensitiveBucket
+                    - sensitiveBucket
+                    - sourceBucket
+
+    - title: Advanced Repo Setting Options
+      description: You can specify advanced repository settings for your github repo.
+      properties:
+        adminTeam:
+          title: Admin Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Admin permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+        maintainerTeam:
+          title: Maintainer Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Maintain permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        triageTeam:
+          title: Triage Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Triage permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        writeTeam:
+          title: Write Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Write permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        branchProtection:
+          title: Add branch protection rules
+          type: boolean
+          default: true
+      required:
+        - adminTeam
+      dependencies:
+        branchProtection:
+          oneOf:
+            - properties:
+                branchProtection:
+                  enum:
+                    - true
+                branchProtectionName:
+                  title: Branch Name
+                  description: Branch Name (main)
+                  type: string
+                  default: main
+                branchProtectionRequirePullRequest:
+                  title: Require a pull request before merging 
+                  description: Require a pull request before merging
+                  type: boolean
+                  default: true    
+                branchProtectionRequireApproval:
+                  title: Require Approvals before merging pull requests 
+                  description: When enabled, while requiring pull request, merging into the given branch will require at least 1 approval
+                  type: boolean
+                  default: true
+                requireReviewFromCodeOwners:
+                  title: Require review from Code Owners
+                  description: When enabled, merging pull requests into the given branch will require a review from designated Code Owners
+                  type: boolean
+                  default: true
+                requireStatusChecksToPassBeforeMerging:  
+                  title: Require status checks to pass before merging
+                  description: When enabled, merging pull requests into the given branch will require all configured status checks to pass successfully
+                  type: boolean
+                  default: true
+                requireBranchesToBeUpToDateBeforeMerging:  
+                  title: Require branches to be up to date before merging
+                  description: When enabled, the branch must be up to date with the base branch before the pull request can be merged
+                  type: boolean
+                  default: true
+                requireSignedCommits:
+                  title: Require signed commits
+                  description: When enabled, all commits pushed to the branch must be signed with a verified signature
+                  type: boolean
+                  default: true
+            - properties:
+                branchProtection:
+                  enum:
+                    - false    
+        
+  # here's the steps that are executed in series in the scaffolder backend
+  steps:
+    - id: createRepoWorkflowDlp
+      name: Start Repo Creation Workflow (DLP)
+      action: github:actions:dispatch
+      input:
+        repoUrl: github.com?owner=telus&repo=arch-code-template-base-dev
+        workflowId: create-repo-from-simplify.yaml
+        branchOrTagName: main
+        workflowInputs:
+          repoName: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          inputJson: >
+           {
+              "name": "${{ (parameters.repoUrl | parseRepoUrl).repo }}",
+              "cmdbId": ${{ parameters.cmdb_id }},
+              "ownerUser": "${{ parameters.user }}",
+              "ownerTeam": "${{ parameters.owner }}",
+              "createdFrom": "backstage-dev",
+              "includeCicd": false,
+              "maintainerTeam": "${{ parameters.maintainerTeam }}",
+              "triageTeam": "${{ parameters.triageTeam }}",
+              "writeTeam": "${{ parameters.writeTeam }}",
+              "adminTeam": "${{ parameters.adminTeam }}",
+              "includeBranchProtection": "${{ parameters.branchProtection }}",
+              "branchProtection": {
+                "branchProtectionName": "${{ parameters.branchProtectionName }}",
+                "branchProtectionRequirePullRequest": "${{ parameters.branchProtectionRequirePullRequest }}",
+                "branchProtectionRequireApproval": "${{ parameters.branchProtectionRequireApproval }}",
+                "requireReviewFromCodeOwners": "${{ parameters.requireReviewFromCodeOwners }}",
+                "requireStatusChecksToPassBeforeMerging": "${{ parameters.requireStatusChecksToPassBeforeMerging }}",
+                "requireBranchesToBeUpToDateBeforeMerging": "${{ parameters.requireBranchesToBeUpToDateBeforeMerging }}",
+                "requireSignedCommits": "${{ parameters.requireSignedCommits }}"
+              },
+              "emailAddress": "${{ parameters.emailAddress }}",
+              "sampleCode": {
+                "programmingLanguage": "${{ parameters.language }}",
+                "gcpServiceSample": "dlpStorageCf"
+              },
+              "dlpStorageCf": {
+                "cloudFunctionVersion": "${{ parameters.cloudFunctionVersion }}",
+                "sourceBucket": "${{ parameters.sourceBucket }}",
+                "sensitiveBucket": "${{ parameters.sensitiveBucket }}",
+                "nonSensitiveBucket": "${{ parameters.nonSensitiveBucket }}"
+              }
+            }
+
+    - id: pause
+      name: Pause for Repo Creation
+      action: roadiehq:utils:sleep
+      input:
+        amount: 20
+    
+    - id: pause-for-creation-message
+      name: Please be patient with us as this process may take a few minutes
+      action: roadiehq:utils:sleep
+      input:
+        amount: 0
+  
+    - id: pause-for-welcome-email-message
+      name: Please wait for the welcome email to ensure your repository is completely configured before visiting the repository links below.
+      action: roadiehq:utils:sleep
+      input:
+        amount: 0
+      
+  output:
+    links:
+      - title: DLP Cloud Function repository ...
+        url: https://github.com/telus/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+      - title: Please rate your experience...
+        url: https://forms.gle/Ptah4nA2a1NK3iqw6

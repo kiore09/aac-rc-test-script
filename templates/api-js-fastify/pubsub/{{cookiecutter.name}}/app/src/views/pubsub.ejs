@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+      <title>Sample Nodejs with GCP PubSub</title>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <h1>Sample Nodejs with GCP PubSub</h1>
+    <hr class="solid">
+    <div>
+      <h3>Topic: <%= locals.topicName %>  </h3>
+      <h3>Subscription: <%= locals.subscriptionName %> </h3>
+    </div>
+    <hr class="solid">
+    <div>
+      <h4>Message Received:</h4>
+      <p><%= locals.message  %></p>
+    </div>
+    <hr class="solid">
+    <a href="/">Go back</a>
+  </body>
+</html>

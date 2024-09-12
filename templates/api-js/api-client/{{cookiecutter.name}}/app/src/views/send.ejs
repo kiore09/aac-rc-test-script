@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>SMTP outbound email demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>SMTP Outbound Email Demo</h1>
+    <form action="/send/Emails" enctype="multipart/form-data" method="post">
+        from (should be an address ending in <%= fromDomain || '' %>): <input type="text" name="from"><br>
+        to: <input type="text" name="to"><br>
+        cc: <input type="text" name="cc"><br>
+        bcc: <input type=""text name="bcc"><br>
+        subject: <input type="text" name="subject"><br>
+        bodyText: <br>
+        <textarea rows="5" col="60" name="bodyText"></textarea><br>
+        <input type="file" id="myFile" name="attachment" multiple><br>
+        <div>Note: Total attachment file size should be smaller than 20MB</div><br>
+        <input type="checkbox" name="ishtmlbody" value="true">
+        <label for="ishtmlbody">Display the bodytext as html?</label>
+        <button type="submit">Send Emails</button>
+    </form>
+    <br><h1>Response from Endpoint</h1>
+    <% if(locals.error) { %> 
+        <div>ERROR: Exception Caught - <%= error || '' %> with StatusCode <%= response_msg || '' %></div>
+    <% } if(locals.statuscode){ %>
+        <div>Response: StatusCode - <%= statuscode || '' %>, Message - <%= response_msg || ''%></div>
+    <% } %>
+</body>
+</html>

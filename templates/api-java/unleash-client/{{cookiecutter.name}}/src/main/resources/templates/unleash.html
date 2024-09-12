@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <title>Sample Unleash App</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <h1>Sample Unleash App</h1>
+    <hr class="solid">
+
+    <div>
+        <p>Toggle status for <b th:text="${toggleName}" /></p>
+        <p><b th:text="${time}" />: <b th:text="${toggle}" /></p>
+        <form action="/unleashFlags" >
+            <input type="submit" value="Refresh toggle" />
+        </form>
+    </div>
+
+    <hr class="solid">
+    <div style="display: flex; flex-direction: column;">
+        <a href="/">Go back</a>
+        <p th:text="${error}" />  <!-- Element to display error message if any -->
+    </div>
+    
+</body>
+</html>

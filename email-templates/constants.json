@@ -1,0 +1,37 @@
+{
+  "service": {
+    "basic": "Basic",
+    "gcstorage": "Cloud Storage",
+    "secretmgr": "Secret Manager",
+    "pubsub": "Pub/Sub",
+    "firestore": "Firestore",
+    "postgresql": "PSQL Service",
+    "memstore": "Memorystore",
+    "apiClient": "API Client",
+    "gqlPsql": "GQL with PSQL",
+    "primavera": "Primavera",
+    "etlStorageCf": "ETL Cloud Function",
+    "dlpStorageCf": "DLP Cloud Function",
+    "edaPublisher": "EDA Publisher",
+    "edaSubscriber": "EDA Subscriber",
+    "edaFsTriggerCf": "EDA Cloud Function",
+    "cqrsCmd": "CQRS Command",
+    "cqrsQuery": "CQRS Query",
+    "cqrsPubsubTriggerCf": "CQRS Cloud Function",
+    "unleashClient": "Unleash Client",
+    "singlePage": "Single Page UI",
+    "multiPage": "Multi Page UI",
+    "singlePageAPI": "Single Page UI with API Router",
+    "multiPageAPI": "Multi Page UI with API Router"
+  },
+
+  "language": {
+    "java": "Java",
+    "nodejsExpress": "NodeJS (Express)",
+    "nodetsExpress": "NodeJS (Express) Typescript",
+    "nodejsFastify": "NodeJS (Fastify)",
+    "nodetsFastify": "NodeJS (Fastify) Typescript",
+    "nextjs": "NextJS",
+    "python": "Python"
+  }
+}

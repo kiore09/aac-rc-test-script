@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Sample Nodejs with GCP Memory Store service</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Sample Nodejs with GCP Memory Store service</h1>
+<hr class="solid">
+    <div>
+        <form action="/memstore" method="POST">
+            <div class="form-group">
+                <input type="text" class="form-control" 
+                placeholder="insert Key" 
+                name="key">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" 
+                placeholder="insert value" 
+                name="value">
+            </div>
+            <input class="button" type="submit" value="Add key value">
+        </form>
+    </div>
+<hr class="solid">
+<div style="display: flex; flex-direction: column;">
+    <a href="/">Go back</a>
+    <% if(locals.error) { %>
+        <div>ERROR: Exception Caught - <%= error %> </div>
+    <% } %>
+    <% if(response) { %>
+        <p>Redis record was created successfully!</p>
+        <p> Access Data Using POSTMAN : GET - http://localhost:{port-forward}/memstore/<%= key %></p>
+    <% } %>
+</div>
+</body>
+</html>

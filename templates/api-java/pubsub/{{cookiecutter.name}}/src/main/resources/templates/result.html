@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Sample Java with GCP PubSub</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div>
+        <h3 th:text="${topic}"/>
+        <h3 th:text="${subscription}"/>
+    </div>
+    <p th:text="${excdata}" />
+    <p th:text="${pubResult}" />
+    <p th:text="${subResult}" />
+    <p><a href="/pubsub">Return to pubsub page</a></p>
+</body>
+</html>

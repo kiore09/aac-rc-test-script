@@ -1,0 +1,11 @@
+# Node Modules
+node_modules
+
+#Logs files
+*.log
+
+#.DS_STORE file
+.DS_STORE
+
+# Test coverage folder
+coverage

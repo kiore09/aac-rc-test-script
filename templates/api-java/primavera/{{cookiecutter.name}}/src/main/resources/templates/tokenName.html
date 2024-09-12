@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>ID Token Parsing</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h3>Parsed ID Token</h3>
+
+    <p th:text="'Given Name: ' + ${givenName}" />
+    <p th:text="'Family Name: ' + ${familyName}" />
+
+    <p th:text="${errMsg}" />
+</body>
+</html>

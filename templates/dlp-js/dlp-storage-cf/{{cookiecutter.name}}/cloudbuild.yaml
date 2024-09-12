@@ -1,0 +1,33 @@
+steps:
+  - name: "node:${_NODE_VERSION}"
+    entrypoint: "yarn"
+    args: ["install"]
+    dir: "."
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: deploy DLP Inspection node function
+    args:
+      - gcloud
+      - functions
+      - deploy
+      - ${_FUNCTION_TITLE}
+      - --source=${_SOURCE}
+      - --runtime=${_RUNTIME}
+      - --trigger-bucket=${_SOURCE_BUCKET}
+      - --region=${_REGION}
+      - --entry-point=${_FUNCTION_NAME}
+      - --set-env-vars=GCP_PROJECT=${PROJECT_ID},SENSITIVE_BUCKET=${_SENSITIVE_BUCKET},NON_SENSITIVE_BUCKET=${_NON_SENSITIVE_BUCKET}
+      - --ingress-settings=internal-only
+
+substitutions:
+  _NODE_VERSION: "20"
+  _FUNCTION_TITLE: DLP-Inspection-Deidentification-Job-Node
+  _FUNCTION_NAME: createDLPInspectandDeidNode
+  _SOURCE: .
+  _RUNTIME: nodejs20
+  _REGION: northamerica-northeast1
+
+  # By default, the function targets the buckets in np
+  # Replace with production bucket names when deploying to pr
+  _SOURCE_BUCKET: {{cookiecutter.dlpStorageCf.sourceBucket}}_np
+  _SENSITIVE_BUCKET: {{cookiecutter.dlpStorageCf.sensitiveBucket}}_np
+  _NON_SENSITIVE_BUCKET: {{cookiecutter.dlpStorageCf.nonSensitiveBucket}}_np

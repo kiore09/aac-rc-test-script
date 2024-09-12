@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+    <body>
+        <h1>EDA Publisher Demo</h1>
+
+        <p>Click <a href="/">here</a> to return to the index page</p>
+
+        <p>Project id: <b th:text="${projectId}" /></p>
+        <p>Current Collection Name: <b th:text="${collectionName}" /></p>
+
+        <!-- On submission, redirect to POST /publisher -->
+        <form action="#" th:action="@{/publisher}" th:object="${backing}" method="post">
+
+            <!-- Map text input to message field on backing object -->
+            <textarea rows="10" cols="50" th:field="*{payload}" placeholder="Enter payload here"/>
+            
+            <p><input type="submit" value="Add Document" /> <input type="reset" value="Reset" /></p>
+        </form>
+
+        <hr class="solid">
+        <!-- Display result after adding to collection -->
+        <p>Result:</p>
+        <p th:text="    ${error}" />
+        <p th:text="    ${result}" />
+
+    </body>
+</html>

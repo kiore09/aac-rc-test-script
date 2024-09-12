@@ -1,0 +1,143 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sample Fastify API with OpenAPI 3.0",
+    "version": "0.1.0",
+    "description": "This is a simple API application made with Fastify and documented with OpenAPI",
+    "contact": {
+      "name": "Someone",
+      "email": "someone@example.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/",
+      "description": "Local server"
+    },
+    {
+      "url": "https://localhost:8080/",
+      "description": "Local server with SSL"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "User's id",
+            "example": 1
+          },
+          "firstName": {
+            "type": "string",
+            "description": "First name of the user",
+            "example": "Alice"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "Last name of the user",
+            "example": "Smith"
+          }
+        }
+      }
+    }
+  },
+  "x-api-engagement-num": "910",
+  "x-apiname": "demoApiName",
+  "x-cmdbid": "21740",
+  "x-responsetime": "3000",
+  "x-tmfdomain": "common",
+  "x-tps": "1000",
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "getAllUsers",
+        "summary": "Get all users",
+        "tags": [
+          "users"
+        ],
+        "description": "Returns all users in the \"database\"",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "get": {
+        "operationId": "getUserById",
+        "summary": "Get user by id",
+        "tags": [
+          "users"
+        ],
+        "description": "Returns the user with the input id",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input id"
+          },
+          "404": {
+            "description": "No user found with input id"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "description": "User object",
+      "properties": {
+        "userId": {
+          "type": "integer",
+          "description": "User's id",
+          "format": "int64",
+          "example": 1
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the user",
+          "example": "Alice"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the user",
+          "example": "Smith"
+        }
+      }
+    }
+  },
+  "tags": []
+}

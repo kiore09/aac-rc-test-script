@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.telus</groupId>
+  <artifactId>{{cookiecutter.name}}</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>{{cookiecutter.name}}</name>
+  <description>Demo project for EDA Cloud Function</description>
+
+  <properties>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+  </properties>
+
+  <dependencies>
+    <!-- Cloud Functions API, provided by GCP when deployed -->
+    <dependency>
+      <groupId>com.google.cloud.functions</groupId>
+      <artifactId>functions-framework-api</artifactId>
+      <version>1.1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Google Cloud Pub/Sub client library -->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-pubsub</artifactId>
+      <version>1.132.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloudevent-types</artifactId>
+      <version>0.15.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>2.11.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Enables local testing via localhost with "mvn function:run" -->
+      <plugin>
+        <groupId>com.google.cloud.functions</groupId>
+        <artifactId>function-maven-plugin</artifactId>
+        <version>0.11.0</version>
+        <configuration>
+          <functionTarget>com.samples.telus.FirestoreBackgroundFunction</functionTarget>
+          <port>8080</port>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

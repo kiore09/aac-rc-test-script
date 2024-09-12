@@ -1,0 +1,39 @@
+
+.pageHeader {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+}
+
+.pageHeader__logo {
+  order: 1;
+}
+
+.pageHeader__profile {
+  order: 2;
+  margin-left: auto;
+  display: flex;
+  align-self: center;
+}
+
+.pageContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.pageLayout {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.pageMain {
+  flex: 1;
+}
+
+.footerBackground {
+  background-color: #f4f4f7;
+}

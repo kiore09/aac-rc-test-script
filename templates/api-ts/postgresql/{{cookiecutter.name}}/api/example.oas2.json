@@ -1,0 +1,110 @@
+{
+  "swagger": "2.0",
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": ["http", "https"],
+  "info": {
+    "title": "Sample Express API with Swagger",
+    "version": "0.1.0",
+    "description": "This is a simple API application made with Express and documented with Swagger",
+    "contact": {
+      "name": "Someone",
+      "email": "someone@example.com"
+    }
+  },
+  "x-api-engagement-num": "910",
+  "x-apiname": "demoApiName",
+  "x-cmdbid": "21740",
+  "x-responsetime": "3000",
+  "x-tmfdomain": "common",
+  "x-tps": "1000",
+  "paths": {
+    "/users": {
+      "get": {
+        "operationId": "getAllUsers",
+        "summary": "Get all users",
+        "tags": ["users"],
+        "description": "Returns all users in the \"database\"",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "get": {
+        "operationId": "getUserById",
+        "summary": "Get user by id",
+        "tags": ["users"],
+        "description": "Returns the user with the input id",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input id"
+          },
+          "404": {
+            "description": "No user found with input id"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "description": "User object",
+      "properties": {
+        "userId": {
+          "type": "integer",
+          "description": "User's id",
+          "format": "int64",
+          "example": 1
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the user",
+          "example": "Alice"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the user",
+          "example": "Smith"
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "securityDefinitions": {},
+  "tags": []
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Sample Nodejs with GCP PubSub</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Sample Nodejs with GCP PubSub</h1>
+<hr class="solid">
+    <div>
+        <h3>Topic: <%= topic %>  </h3>
+        <h3>Subscription: <%= subscription %> </h3>
+    </div>
+    <div>
+            <p>Message Received: <%= message  %> </p>     
+    </div>
+<hr class="solid">
+<a href="/">Go back</a>
+<% if(locals.error) { %> 
+    <div>ERROR: Exception Caught - <%= error %> </div>
+    <% } %> 
+</body>
+</html>

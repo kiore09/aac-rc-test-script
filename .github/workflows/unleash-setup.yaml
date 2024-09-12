@@ -1,0 +1,170 @@
+name: Unleash Setup
+
+on:
+  workflow_dispatch:
+    inputs:
+      unleash_project_id:
+        type: string
+        description: the unique id of the unleash project to be used/created
+      unleash_project_name:
+        type: string
+        description: the name of the unleash project to be used/created
+      unleash_new_project_desc:
+        type: string
+        description: the description of the new unleash project to be created
+      create_new_project:
+        type: boolean
+        description: create a new project
+      unleash_toggle_name:
+        type: string
+        description: the name of the new unleash toggle to be created
+      user_email:
+        type: string
+        description: a user's email to be onboarded onto the created unleash project
+      # user_name:
+      #   type: string
+      #   description: a user's first and last name to be onboarded onto the created unleash project
+
+jobs:
+  Unleash:
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+    env:
+      SECRET_ID: projects/767430792619/secrets/arc-unleash-api
+      WL_SERVICE_ACCOUNT: sar-arc-unleash-api@cdo-eptools-helper-np-b4c0da.iam.gserviceaccount.com
+      UNLEASH_API: https://us.app.unleash-hosted.com/usff0019/api
+    steps:
+      - name: Output Inputs
+        run: echo "${{ toJSON(github.event.inputs) }}"
+
+      - name: Replace Spaces with Dashes
+        id: replace_spaces
+        run: |
+          UNLEASH_PROJECT_ID="UNLEASH_PROJECT_ID=${{ github.event.inputs.unleash_project_id }}"
+          echo ${UNLEASH_PROJECT_ID// /-} >> $GITHUB_ENV
+          UNLEASH_TOGGLE_NAME="UNLEASH_TOGGLE_NAME=${{ github.event.inputs.unleash_toggle_name }}"
+          echo ${UNLEASH_TOGGLE_NAME// /-} >> $GITHUB_ENV
+      - id: "gcp_auth"
+        uses: "google-github-actions/auth@v2"
+        with:
+          workload_identity_provider: ${{ secrets.CDO_WORKLOAD_IDENTITY_PROVIDER_GCP }}
+          service_account: "${{ env.WL_SERVICE_ACCOUNT }}"
+
+      - id: "secrets"
+        uses: "google-github-actions/get-secretmanager-secrets@v2"
+        with:
+          secrets: |-
+            token:${{ env.SECRET_ID }}
+
+      # - name: Create New Unleash User
+      #   continue-on-error: true
+      #   # Created with a "rootRole" of '2' which is the Editor role
+      #   id: create-new-user
+      #   if: github.event.inputs.user_email != '' && github.event.inputs.user_name != ''
+      #   uses: fjogeleit/http-request-action@v1
+      #   with:
+      #     url: "${{ env.UNLEASH_API }}/admin/user-admin"
+      #     method: "POST"
+      #     customHeaders: '{ "Content-Type": "application/json",
+      #       "Authorization": "${{ steps.secrets.outputs.token }}"
+      #       }'
+      #     data: '{
+      #       "email": "${{ github.event.inputs.user_email }}",
+      #       "name": "${{ github.event.inputs.user_name }}",
+      #       "rootRole": 2,
+      #       "sendEmail": true
+      #       }'
+
+      - name: Get Unleash User ID
+        id: get-user
+        if: github.event.inputs.user_email != ''
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ env.UNLEASH_API }}/admin/user-admin/search?q=${{ github.event.inputs.user_email }}"
+          method: "GET"
+          customHeaders: '{ "Content-Type": "application/json",
+            "Authorization": "${{ steps.secrets.outputs.token }}"
+            }'
+
+      - name: Check if User ID is empty string
+        id: checkUserID
+        run: |
+          if [ -z "${{ fromJson(steps.get-user.outputs.response)[0].id }}" ]; then
+            echo "Variable is empty string"
+            echo "::set-output name=isEmpty::true"
+          else
+            echo "User ID is not empty string"
+            echo "${{ fromJson(steps.get-user.outputs.response)[0].id  }}"
+            echo "::set-output name=isEmpty::false"
+          fi
+
+      - name: Create Unleash Project
+        id: create-project
+        if: github.event.inputs.create_new_project == 'true' && env.UNLEASH_PROJECT_ID != '' && steps.checkUserID.outputs.isEmpty == 'false'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ env.UNLEASH_API }}/admin/projects"
+          method: "POST"
+          customHeaders: '{ "Content-Type": "application/json",
+            "Authorization": "${{ steps.secrets.outputs.token }}"
+            }'
+          data: '{
+            "id": "${{ env.UNLEASH_PROJECT_ID }}",
+            "name": "${{ github.event.inputs.unleash_project_name }}",
+            "description": "${{ github.event.inputs.unleash_new_project_desc }}",
+            "defaultStickiness": "default",
+            "mode": "protected"
+            }'
+
+      - name: Create Unleash Toggle
+        continue-on-error: true
+        if: steps.create-project.outcome == 'success' && steps.checkUserID.outputs.isEmpty == 'false'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ env.UNLEASH_API }}/admin/projects/${{ env.UNLEASH_PROJECT_ID }}/features"
+          method: "POST"
+          customHeaders: '{ "Content-Type": "application/json",
+            "Authorization": "${{ steps.secrets.outputs.token }}"
+            }'
+          data: '{
+            "name": "${{ env.UNLEASH_TOGGLE_NAME }}"
+            }'
+
+      - name: Create API Access Token
+        continue-on-error: true
+        if: steps.create-project.outcome == 'success' && steps.checkUserID.outputs.isEmpty == 'false'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ env.UNLEASH_API }}/admin/projects/${{ env.UNLEASH_PROJECT_ID }}/api-tokens"
+          method: "POST"
+          customHeaders: '{ "Content-Type": "application/json",
+            "Authorization": "${{ steps.secrets.outputs.token }}"
+            }'
+          data: '{
+            "username": "${{ github.event.inputs.unleash_project_name }} CLIENT Token",
+            "type": "CLIENT",
+            "environment": "development",
+            "projects": [
+            "${{ env.UNLEASH_PROJECT_ID }}"
+            ]
+            }'
+
+      - name: Add Unleash User To Project
+        if: steps.create-project.outcome == 'success' && github.event.inputs.user_email != '' && steps.checkUserID.outputs.isEmpty == 'false'
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: "${{ env.UNLEASH_API }}/admin/projects/${{ env.UNLEASH_PROJECT_ID }}/role/4/access" # role '4' appears to be the 'Owner' role for roles within a specific project
+          method: "POST"
+          customHeaders: '{ "Content-Type": "application/json",
+            "Authorization": "${{ steps.secrets.outputs.token }}"
+            }'
+          data: '{
+            "users": [
+            {
+            "id": "${{ fromJson(steps.get-user.outputs.response)[0].id }}"
+            }
+            ],
+            "groups": []
+            }'

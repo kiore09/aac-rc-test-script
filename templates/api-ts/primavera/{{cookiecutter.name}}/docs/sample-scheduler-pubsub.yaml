@@ -1,0 +1,34 @@
+## This is a sample GCP Scheduler for publishing a message to a PubSub Topic.
+## To deploy this resource to your GCP project, follow the steps below:
+## =============================================================================
+## 1- Update the 'pubsub_data' value to publish your desired message to the Topic.   
+## 2- Update the 'schedule' value to reflect the desired frequency of the job. 
+##    For more detailed information about configuring the schedule frequency, 
+##    see (https://cloud.google.com/scheduler/docs/configuring/cron-job-schedules)   
+## 3- Copy the yaml file to your tf-infra repository for your GCP project.   
+## 4- Follow the instructions here: 
+##    (https://developers.telus.com/topics/applying-terraform-configuration-in-gcp) 
+##    to deploy the scheduler to your GCP Project.
+## =============================================================================
+resource "google_pubsub_topic" "scheduler_topic" {
+  name                       = "scheduler_topic"
+  project                    = var.project_id
+  message_retention_duration = "86400s" # 1 Day
+  message_storage_policy {
+    allowed_persistence_regions = [
+      var.region
+    ]
+  }
+}
+
+module "cloud_scheduler" {
+  source         = "git::ssh://git@github.com/telus/tf-module-gcp-scheduler"
+  region         = var.region
+  project_id     = var.project_id
+  scheduler_name = "pubsub-publisher-job-${var.project_id}"
+  pubsub_data    = "{\"sample-key1\":\"sample-value1\"}"
+  schedule       = "*/1 * * * *"
+  time_zone      = "America/Vancouver"
+  topic_name     = google_pubsub_topic.scheduler_topic.name
+  depends_on = [google_pubsub_topic.scheduler_topic]  
+}

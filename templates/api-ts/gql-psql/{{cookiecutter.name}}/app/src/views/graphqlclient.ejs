@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>GraphQL Postgres Demo</h1>
+<a href="/">Click Here</a> to return to the home page
+
+<hr class="solid">
+<!-- On submission, redirect to POST /storage -->
+<form action="/requestQuery"  method="post">
+
+    <p>Enter a query that you would like to access: </p>
+    <textarea rows="8" cols="50" name="request_qry">{
+  customer(id: 1){
+   id
+   firstName
+   lastName
+   birthDate
+  }
+}</textarea>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+<% if(locals.error) { %> 
+    <div>ERROR: Exception Caught - <%= error %> </div>
+<% } else { %>
+    <div>Data returned: <%= returned_data || '' %></div>
+<% } %>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+    "git.ignoreLimitWarning": true,
+    "extensions.ignoreRecommendations": true,
+    "java.server.launchMode": "Standard",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

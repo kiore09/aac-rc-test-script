@@ -1,0 +1,21 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPathPattern": "/st/token.*",
+        "queryParameters": {
+            "grant_type": {
+               "matches": ".*"
+            },
+            "scope": {
+                "matches": ".*" 
+            }
+        }
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "bodyFileName": "../__files/kongTokenSuccessResponse.json"
+    }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+    <body>
+        <h1>Google Cloud Storage Demo</h1>
+
+        <p>The following is a simple demo application for writing and retrieving blobs from Google Cloud Storage. <a href="/">Click Here</a> to return to the index page</p>
+        <p>Current Bucket Name: <b th:text="${bucketname}" /></p>
+        <p th:text="${excdata}" />  <!-- Element to display error message if any -->
+
+        <hr class="solid">
+
+        <!-- On submission, redirect to POST /storage -->
+        <form action="#" th:action="@{/storage}" th:object="${backing}" method="post">
+
+            <!-- Map text input to blobName field on backing object -->
+            <p>Enter a name to create a new blob: <input type="text" th:field="*{blobName}" /></p>
+            
+            <p>For demo purposes, this blob will contain the string "Hello World!"</p>
+            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        </form>
+
+        <hr class="solid">
+
+        <p>List of Blobs in Bucket:</br>===========</br></p>
+        <ul>
+            <li th:each="blob : ${blobList}" th:text="${blob}"></li>
+        </ul>
+    </body>
+</html>

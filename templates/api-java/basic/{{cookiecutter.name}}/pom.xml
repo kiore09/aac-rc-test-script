@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.telus</groupId>
+	<artifactId>{{ cookiecutter.name }}</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>{{ cookiecutter.name }}</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>21</java.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.google.cloud</groupId>
+				<artifactId>spring-cloud-gcp-dependencies</artifactId>
+				<version>5.6.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+    <!-- For demo-ing sample endpoints, remove during actual API development -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+    <!-- For Spring MVC starter -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Supplies JUnit 5 and Mockito for unit tests -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>5.13.0</version>
+			<scope>test</scope>
+    </dependency>
+
+    <!-- For Spring Boot tests -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Supplies JSON encoder for logging -->
+    <dependency>
+      <groupId>net.logstash.logback</groupId>
+      <artifactId>logstash-logback-encoder</artifactId>
+      <version>8.0</version>
+    </dependency>
+
+    <!-- For Springdoc OpenAPI 3.0-->
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+        
+    <!-- For serialization of objects to JSON -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.11.0</version> 
+    </dependency>
+	</dependencies>
+
+	<build>
+
+		<plugins>
+      <!-- Maven plugin for Spring Boot with configs for OpenAPI plugin -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+        <!-- JVM arguments added here are automatically used when running "mvn spring-boot:run"
+
+        <configuration>
+            <jvmArguments>-Xmx2048m -Xdebug -DargumentName=someValue</jvmArguments>
+        </configuration>
+
+        However they are not used when running "java -jar ...", see Dockerfile for more details
+        -->
+        <executions>
+            <execution>
+                <goals>
+                    <goal>start</goal>
+                    <goal>stop</goal>
+                </goals>
+            </execution>
+        </executions>
+			</plugin>
+
+      <!-- Plugin for unit tests (set -Dskip.unit.tests=true to skip unit tests) -->
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+              <skipTests>${skip.unit.tests}</skipTests>
+          </configuration>
+      </plugin>
+
+
+      <!-- JaCoCo plugin to report code coverage -->
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.12</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>prepare-agent</goal>
+                  </goals>
+              </execution>
+              <execution>
+                  <id>report</id>
+                  <phase>test</phase>
+                  <goals>
+                      <goal>report</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
+		</plugins>
+	</build>
+</project>

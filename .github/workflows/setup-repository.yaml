@@ -1,0 +1,272 @@
+name: Setup repository
+on:
+  push:
+    paths:
+      - cookiecutter.yaml
+  
+permissions:
+  contents: write
+
+jobs:
+  setup:
+    name: Validate repo
+    runs-on: ubuntu-latest    
+    steps:
+      - name: Do not run scaffolding on template repository
+        shell: bash
+        # This workflow runs when the `cookiecutter.json` file is modified.
+        # This is the trick to re-init a repository, but we don't want to
+        # run this action if this file is modified in the origin template repository.
+        #
+        # Using the GitHub rest API allows us to identify if the current repository
+        # is a template repository or not.
+        run: |
+          curl --silent -X GET \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.baptiste-preview+json" \
+            https://api.github.com/repos/$GITHUB_REPOSITORY \
+            | jq --exit-status '.is_template == false';
+      
+      # Only run the workflow if the commit message starts with 'Update cookiecutter.yaml'
+      # This prevents the workflow from triggering without a purposeful commit to cookiecutter.yaml
+      # Exit status is non-zero to stop the workflow
+      - name: "Only run on 'Update cookiecutter.yaml'"
+        if: ${{ !startsWith(github.event.head_commit.message, 'Update cookiecutter.yaml') }}
+        run: |
+          echo "Commit should start with 'Update cookiecutter.yaml', skipping the workflow."
+          exit 1
+                     
+  create_repo_job: 
+    needs: [setup]
+    runs-on: ubuntu-latest     
+    name: Repo Setup...
+    permissions:
+      contents: 'write'      
+      id-token: 'write'
+    env:
+      SECRET_ID: projects/767430792619/secrets/arc-gh-wrkflw-token
+      WL_SERVICE_ACCOUNT: sar-arc-gh-wrkflw-token@cdo-eptools-helper-np-b4c0da.iam.gserviceaccount.com   
+    steps:
+      - name: setting up gcp auth
+        uses: actions/checkout@v4
+      
+      - id: 'gcp-auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ secrets.CDO_WORKLOAD_IDENTITY_PROVIDER_GCP }} 
+          service_account: '${{ env.WL_SERVICE_ACCOUNT }}'
+      
+      - id: 'secrets'
+        uses: 'google-github-actions/get-secretmanager-secrets@v2'
+        with:
+          secrets: |-
+            token:${{ env.SECRET_ID }}
+      - name: store_token
+        run: |
+          echo "GCP_TOKEN=${{ steps.secrets.outputs.token }}" >> $GITHUB_ENV
+          
+      - uses: actions/checkout@v4
+        with:
+          # Generate a new personal access token with the workflow `scope` does the trick.
+          token: ${{ env.GCP_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Add follow up survey as issue
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: Arch as Code Software Template Developer Experience Feedback
+          content-filepath: ./feedback-templates/feedback.md
+          token: ${{ env.GCP_TOKEN }}
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: pip install -r requirements.txt
+      - name: convert yaml to json
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq eval -o=j cookiecutter.yaml > cookiecutter.json
+          
+      - name: Generate Sample App and Push to Repo
+        run: |
+            # Load cookiecutter.json into environment variable for next steps
+            echo "COOKIE_INPUT=$( cat cookiecutter.json | jq -c )" >> $GITHUB_ENV
+            # Get the language and service choices
+            language=$( cat cookiecutter.json | jq -r '.sampleCode.programmingLanguage')
+            service=$( cat cookiecutter.json | jq -r '.sampleCode.gcpServiceSample')
+            
+            # Translate to $card and $template, i.e. the structure under /templates/
+            # Function to get cloudFunctionVersion from JSON
+            get_cloud_function_version() {
+            local key="$1"
+            jq -r "${key}.cloudFunctionVersion" < cookiecutter.json
+            }
+
+            # Source the service map configuration
+            source ./script-test-2.sh
+
+            # Assign card and cloudFunctionVersion
+            key="${language}:${service}"
+            card="${card_map[$key]}"
+
+            # Set cloudFunctionVersion if necessary
+            case $card in
+              *"-java" | *"-js" | *"-ts" | *"-python")
+                cloudFunctionVersion=$(get_cloud_function_version "${service}")
+                ;;
+            esac
+
+
+
+            echo "card=$card" >> $GITHUB_ENV
+            echo "template=$template" >> $GITHUB_ENV
+            echo "language=$language" >> $GITHUB_ENV
+            echo "createdFrom=github-dev" >> $GITHUB_ENV
+            
+            # Capture email address to send welcome email
+            emailAddress=$( cat cookiecutter.json | jq -r '.emailAddress')
+            echo "emailAddress=$emailAddress" >> $GITHUB_ENV
+            
+            # Capture repository name to copy shared folder to corresponding folders in generated sample app
+            name=$( cat cookiecutter.json | jq -r '.name')
+            echo "name=$name" >> $GITHUB_ENV
+            # Place the cookiecutter.json in the appropriate template
+            if [[ $template =~ [a-z][A-Z] ]]; then
+              template_format=$(echo "$template" | sed 's/\([a-z]\)\([A-Z]\)/\1-\2/g' | tr '[:upper:]' '[:lower:]')
+            else
+              template_format=$template
+            fi
+            cp cookiecutter.json ./templates/$card/$template_format/cookiecutter.json
+            # Set the README.md content as a variable using mapfile
+            mapfile < ./shared/docs/README.md lines
+            
+            if [ $service != "singlePage" ] && [ $service != "multiPage" ] && [ $service != "singlePageAPI" ] && [ $service != "multiPageAPI" ]
+            then
+            #Set the codeql.yaml file as a variable using mapfile
+            mapfile -t codeql < ./shared/codeql/codeql-$language.yaml
+            #Set the codeql.md file as a variable using mapfile
+            mapfile < ./shared/docs/codeql.md codeqlmd
+            fi
+            # Generate the sample application
+            cookiecutter ./templates/$card/$template_format --no-input --output-dir ./cookie-temp
+
+            # Run system-diagram.sh only on allowed templates
+            case $service in
+              gcstorage|secretmgr|postgresql|pubsub|firestore|memstore|apiClient|gqlPsql|unleashClient)
+                # Run system-diagram-json.sh script
+                chmod +x .github/workflows/scripts/system-diagram-json.sh
+                .github/workflows/scripts/system-diagram-json.sh
+                # Place shared/sme folder in current directory
+                cp cookiecutter.json ./shared/sme/cookiecutter.json
+                cookiecutter ./shared/sme/ --no-input --output-dir ./cookie-shared-temp
+                rsync -r ./cookie-shared-temp/* ./cookie-temp/
+              ;;
+            esac
+
+            # Generate SUPPORT, CONTRIBUTING, and CODEOWNER files
+            sh .github/workflows/scripts/github-docs.sh
+
+            # Generate sample test coverage files for Risk Engine
+            sh .github/workflows/scripts/copy-test-coverage.sh
+
+            # Copy the cloud-functions-version.sh script to a temporary location
+            # This ensures the script is preserved even after rsync clears the working directory
+            cp .github/workflows/scripts/cloud-functions-version.sh /tmp/cloud-functions-version.sh
+
+            # Place sample app in current directory
+            rsync -r --filter='protect .git/' --delete-delay ./cookie-temp/*/ .
+
+            if [ $service != "cqrsPubsubTriggerCf" ] && [ $service != "singlePage" ] && [ $service != "multiPage" ] && [ $service != "singlePageAPI" ] && [ $service != "multiPageAPI" ] && [ $service != "dlpStorageCf" ] && [ $service != "edaFsTriggerCf" ] && [ $service != "etlStorageCf" ]
+            then
+            # Copy the codeql-$language.yaml file to .github/workflows within the generated sample application
+            mkdir -p ./.github/workflows/
+            printf '%s\n' "${codeql[@]}" > ./.github/workflows/codeql-$language.yaml
+            # Copy the codeql.md file to the docs folder within the generated sample application
+            mkdir -p ./docs/
+            echo "${codeqlmd[@]}" >> ./docs/codeql.md
+            # Add the new instructions to a templated README.md file
+            echo "${lines[@]}" >> ./README.md
+            fi
+
+            # Update the Cloud Functions gen2
+            case $service in
+              edaFsTriggerCf|cqrsPubsubTriggerCf|etlStorageCf|dlpStorageCf)
+                export cloudFunctionVersion
+                export service
+                export language
+                # Make the copied script executable in the temporary location
+                chmod +x /tmp/cloud-functions-version.sh
+
+                # Execute the script from the temporary location to set up the cloud function version
+                /tmp/cloud-functions-version.sh
+
+                # Clean up by removing the script from the temporary location, 
+                # as it is no longer needed after execution
+                rm /tmp/cloud-functions-version.sh
+                ;;
+            esac
+
+            # Force push a fresh commit to the Repo
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git config --global user.name "github-actions[bot]"
+            git checkout --orphan temp-branch
+            git add --all
+            git commit -m 'Initial commit'
+            git push origin temp-branch:main -f
+
+      - name: Add Topic to repo
+        env:
+          GH_TOKEN: ${{ env.GCP_TOKEN }}
+        run: |
+          repoVersion="aac-v1-63"
+          gh repo edit $GITHUB_REPOSITORY \
+            --add-topic arch-as-code \
+            --add-topic "${repoVersion}" \
+            --description "This is a placeholder description"
+      
+      # - name: Start Postman Workflow
+      #   uses: benc-uk/workflow-dispatch@v1
+      #   if: ${{ fromJson(env.COOKIE_INPUT).includePostman }}
+      #   with:
+      #     workflow: create-postman-api.yaml
+      #     repo: telus/arch-code-template-base-dev
+      #     ref: main
+      #     token: ${{ env.GCP_TOKEN }}
+      #     inputs: '{"apiName": "${{ fromJson(env.COOKIE_INPUT).postman.postmanApi }}" }'
+      
+      - name: Advanced Repo Setting Options
+        env:
+          GH_TOKEN: ${{ env.GCP_TOKEN }}
+        run: |
+          gh workflow run --repo telus/arch-code-template-base-dev advanced-repo-settings.yaml \
+            --ref main \
+            --field repoName=${{ github.repository }} \
+            --field inputJson=$COOKIE_INPUT
+
+      - name: Start CI/CD Workflow
+        uses: benc-uk/workflow-dispatch@v1
+        if: ${{ fromJson(env.COOKIE_INPUT).includeCicd }}
+        with:
+          workflow: backstage-upgrade-trigger.yaml
+          repo: telus/ep-cicd-generator
+          ref: main
+          token: ${{ env.GCP_TOKEN }}
+          inputs: '{"project_id_np": "${{ fromJson(env.COOKIE_INPUT).cicd.projectIdNp }}", "application": "${{ fromJson(env.COOKIE_INPUT).cicd.application }}", "gke_cluster": "${{ fromJson(env.COOKIE_INPUT).cicd.gkeCluster }}", "namespace": "${{ fromJson(env.COOKIE_INPUT).cicd.namespace }}", "repository": "${{ fromJson(env.COOKIE_INPUT).cicd.repository }}", "port": "${{ fromJson(env.COOKIE_INPUT).cicd.port }}", "branch": "${{ fromJson(env.COOKIE_INPUT).cicd.branch }}", "from_openshift": "${{ fromJson(env.COOKIE_INPUT).cicd.from_openshift }}", "starterkit": "${{ fromJson(env.COOKIE_INPUT).cicd.starterkit }}"}'
+          
+      - name: Audit repo usage
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Audit Repo Usage
+          repo: telus/arch-code-template-base-dev
+          ref: main
+          token: ${{ env.GCP_TOKEN }}
+          inputs: '{"repoName": "${{ github.repository }}", "ownerName": "${{ fromJson(env.COOKIE_INPUT).ownerUser }}", "ownerEmail": "${{ fromJson(env.COOKIE_INPUT).emailAddress }}", "prLanguage": "${{ env.language }}", "apiSample": "${{ env.template }}", "source": "${{ fromJson(env.COOKIE_INPUT).createdFrom || env.createdFrom }}", "cicdSelected": "cicd-${{ fromJson(env.COOKIE_INPUT).includeCicd }}" }'
+          
+      - name: Send welcome email
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Send Welcome Email GF
+          repo: telus/arch-code-template-base-dev
+          ref: main
+          token: ${{ env.GCP_TOKEN }}
+          inputs: '{ "emailAddress": "${{ env.emailAddress }}", "targetRepo": "${{ github.repository }}", "language": "${{ env.language }}", "template": "${{ env.template }}", "includeCicd": "${{ fromJson(env.COOKIE_INPUT).includeCicd }}" }'
+          

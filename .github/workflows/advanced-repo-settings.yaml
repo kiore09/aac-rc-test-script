@@ -1,0 +1,101 @@
+name: Advanced Repo Settings
+on:
+  workflow_dispatch:
+    inputs:
+      repoName:
+        type: string
+        description: 'Name of the repo, without the "telus/" preffix' 
+      inputJson:
+        type: string
+        description: 'JSON string of the input parameters for the new repo'
+
+jobs:
+  advancedRepoSttings:
+    runs-on: ubuntu-latest
+    name: add advanced repo settings
+    
+    permissions:
+      id-token: 'write'
+      contents: 'write'
+      
+    env:
+      SECRET_ID: projects/767430792619/secrets/arc-gh-wrkflw-token
+      WL_SERVICE_ACCOUNT: sar-arc-gh-wrkflw-token@cdo-eptools-helper-np-b4c0da.iam.gserviceaccount.com
+      
+    steps:
+      - name: setting up gcp auth
+        uses: actions/checkout@v4
+        
+      - id: 'gcp-auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ secrets.CDO_WORKLOAD_IDENTITY_PROVIDER_GCP }}
+          service_account: '${{ env.WL_SERVICE_ACCOUNT }}'
+          
+      - id: 'secrets'
+        uses: 'google-github-actions/get-secretmanager-secrets@v2'
+        with:
+          secrets: |-
+            token:${{ env.SECRET_ID }}
+            
+      - name: Store Token into Output
+        run: |-
+          echo "GCP_TOKEN=${{ steps.secrets.outputs.token }}" >> $GITHUB_ENV
+          
+      - name: Assign Teams to Target Repo
+        env:
+          GH_TOKEN: ${{ env.GCP_TOKEN }}
+        continue-on-error: true
+        run: |
+          set +e
+          adminTeam=$(echo ${{ fromJson(github.event.inputs.inputJson).adminTeam }} | sed 's/.*\///')
+          repoName=$(echo ${{ github.event.inputs.repoName }} | sed 's/.*\///')
+          if [ -n "$adminTeam" ]
+          then
+          gh api -X PUT /orgs/telus/teams/$adminTeam/repos/telus/$repoName -f permission='admin'
+          fi
+          maintainerTeam=$(echo ${{ fromJson(github.event.inputs.inputJson).maintainerTeam }} | sed 's/.*\///')
+          if [ -n "$maintainerTeam" ] && [ "$maintainerTeam" != "$adminTeam" ]
+          then
+          gh api -X PUT /orgs/telus/teams/$maintainerTeam/repos/telus/$repoName -f permission='maintain'
+          fi
+          triageTeam=$(echo ${{ fromJson(github.event.inputs.inputJson).triageTeam }} | sed 's/.*\///')
+          if [ -n "$triageTeam" ] && [ "$triageTeam" != "$maintainerTeam" ] && [ "$triageTeam" != "$adminTeam" ]
+          then
+          gh api -X PUT /orgs/telus/teams/$triageTeam/repos/telus/$repoName -f permission='triage'
+          fi
+          writeTeam=$(echo ${{ fromJson(github.event.inputs.inputJson).writeTeam }} | sed 's/.*\///')
+          if [ -n "$writeTeam" ] && [ "$writeTeam" != "$adminTeam" ] && [ "$writeTeam" != "$triageTeam" ] && [ "$writeTeam" != "$maintainerTeam" ] 
+          then
+          gh api -X PUT /orgs/telus/teams/$writeTeam/repos/telus/$repoName -f permission='push'
+          fi
+          set +e
+          
+      - name: Set branch protection
+        env:
+          GH_TOKEN: ${{ env.GCP_TOKEN }}
+        run: |
+          repoName=$(echo ${{ github.event.inputs.repoName }} | sed 's/.*\///')
+          branchProtectionName=$(echo ${{ fromJson(github.event.inputs.inputJson).branchProtection.branchProtectionName }} | sed 's/.*\///')
+          requireApprovalCount=0
+          if [ -n "$branchProtectionName" ]
+          then
+          echo "setting branch protection for $branchProtectionName"
+          branchProtectionRequirePullRequest=$(echo ${{ fromJson(github.event.inputs.inputJson).branchProtection.branchProtectionRequirePullRequest }} | sed 's/.*\///')
+          branchProtectionRequireApproval=$(echo ${{ fromJson(github.event.inputs.inputJson).branchProtection.branchProtectionRequireApproval }} | sed 's/.*\///')
+          echo "this is if condition true"
+          echo "$branchProtectionRequirePullRequest"
+          echo "$branchProtectionRequireApproval"
+
+          if [ "$branchProtectionRequireApproval" = "true" ] 
+          then
+          requireApprovalCount=1
+          fi
+          if [ "$branchProtectionRequirePullRequest" = "true" ]
+          then
+          echo "branchProtectionRequirePullRequest=$branchProtectionRequirePullRequest, branchProtectionRequireApproval=$branchProtectionRequireApproval, requireApprovalCount=$requireApprovalCount"
+          jq -n --argjson count "$requireApprovalCount" '{"required_status_checks":{"strict":true,"contexts":[] },"enforce_admins":false,"required_pull_request_reviews": {"required_approving_review_count":$count, "require_code_owner_reviews": true}, "restrictions":{"users":[], "teams":[]}}' | gh api -X PUT /repos/telus/$repoName/branches/$branchProtectionName/protection --input -
+          gh api --method POST /repos/telus/$repoName/branches/$branchProtectionName/protection/required_signatures
+          gh api -X DELETE /repos/telus/$repoName/branches/$branchProtectionName/protection/restrictions
+          fi
+          fi

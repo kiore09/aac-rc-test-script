@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Sample Nodejs with GCP Publisher service</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Sample Nodejs with GCP Publisher service</h1>
+<hr class="solid">
+    <div>
+        <h3>Project ID: <%= projectId %>  </h3>
+        <h3>Firestore Collection: <%= firestoreCollection %> </h3>
+    </div>
+    <div>
+        <form action="/publisher/create" method="POST">
+            <div class="form-group">
+                <textarea type="text-area" class="form-control" 
+                placeholder="insert payload" 
+                name="payload"></textarea>
+            </div>
+            <input class="button" type="submit" value="Add Document">
+        </form>
+    </div>
+<hr class="solid">
+<div style="display: flex; flex-direction: column;">
+    <a href="/">Go back</a>
+    <% if(locals.error) { %>
+        <div>ERROR: Exception Caught - <%= error %> </div>
+    <% } %>
+    <% if(id) { %>
+        <p>Document <%= id %> was created successfully!</p>
+    <% } %>
+</div>
+</body>
+</html>

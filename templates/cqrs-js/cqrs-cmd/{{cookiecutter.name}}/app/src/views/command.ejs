@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>CQRS CMD Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>CQRS CMD Demo</h1>
+
+    <a href="/">Click Here</a> to return to the index page
+
+    <hr class="solid">
+
+    <p>Enter customer info:</p>
+  
+    <!-- On submission, redirect to POST /command -->
+    <form action="/cmd"  method="post">
+
+      <p>First Name: <input type="text" name="firstName" required /></p>
+      <p>Last Name: <input type="text" name="lastName" required /></p>
+      <p>Date of birth: <input type="date" name="dateOfBirth" required /></p>
+
+      <p><input type="submit" value="Create Customer" /> <input type="reset" value="Reset" /></p>
+    </form>
+
+    </br>===========</br>
+    <p>Result:</p>
+    <% if(locals.error) { %> 
+    <div>ERROR: Exception Caught - <%= error %> </div>
+    <% } %> 
+    <% if(locals.result) { %> 
+      <div><%= result %> </div>
+      <% } %> 
+</body>
+</html>

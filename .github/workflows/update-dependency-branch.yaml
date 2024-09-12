@@ -1,0 +1,50 @@
+# input "label": java, express, or fastify
+
+# Before running this action, create a new branch for your dependency updates
+# e.g. java-dep-fix
+
+# This action will go through all open PRs targetting the inputted base_branch that have the label "label", and will make them point to the inputted new_branch instead
+
+# Current limitations
+# - does not work with pagination when getting pull requets. if there are more than 100 pull requests, this action will have to be run multiple times
+#   - running it multiple times will allow the action to get through all the pull requests by assuming that subsequent runs will result in less 
+#     pull request that point to the main branch.
+#   - if more than 100 pull requests point to the main branch that are not labelled with your input label, the action might not make any changes
+
+name: Update Dependency Branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_branch:
+        description: "Base branch that the PRs currently target (main)"
+        required: true
+      new_branch:
+        description: "New branch name to use for updates (should already exist)"
+        required: true
+      label:
+        description: "Language label (java/express/fastify)"
+        required: true
+
+jobs:
+  change_base_branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Loop through pull requests
+        run: |
+          # Get a list of pull requests that have a label
+          pull_requests=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/pulls?state=open&base=${{ github.event.inputs.base_branch }}&per_page=100" | jq -r '.[] | select(.labels != null) | {number: .number, labels: [.labels[].name]} | @text')
+
+          # Loop through the pull requests
+          for pull_request in $pull_requests; do
+            # Get the pull request number and labels
+            pr_number=$(echo $pull_request | jq -r '.number')
+            labels=$(echo $pull_request | jq -r '.labels')
+
+            # Set the new base branch if there is a matching label
+            if echo "$labels" | grep -q "\b${{ github.event.inputs.label }}\b"; then
+              new_base_branch="${{ github.event.inputs.new_branch }}"
+              # Change the base branch
+              curl -X PATCH -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Content-Type: application/json" -d "{\"base\":\"$new_base_branch\"}" "https://api.github.com/repos/${{ github.repository }}/pulls/$pr_number"
+            fi
+          done

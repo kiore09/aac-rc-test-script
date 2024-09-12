@@ -1,0 +1,19 @@
+{
+  "name": "cqrs-pubsub-trigger-cf",
+  "version": "1.0.0",
+  "description": "GCP EDA Firestore Trigger Function Sample in Nodejs",
+  "main": "index.js",
+  "author": "TELUS",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/firestore": "^7.8.0",
+    "@google-cloud/functions-framework": "^3.1.1",
+    "@google-cloud/logging-winston": "^6.0.0",
+    "@google-cloud/pubsub": "^4.4.1",
+    "dotenv": "^16.0.0",
+    "winston": "^3.8.2"
+  },
+  "engines": {
+    "node": "^20"
+  }
+}

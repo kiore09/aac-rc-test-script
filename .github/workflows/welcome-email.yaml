@@ -1,0 +1,75 @@
+name: Send Welcome Email GF
+on:
+  workflow_dispatch:
+    inputs:
+      emailAddress:
+        type: string
+        description: The email address to send the welcome email to
+      targetRepo:
+        type: string
+        description: Name of the target repository
+      language:
+        type: choice
+        description: Selected programming language
+        options:
+        - java
+        - nodejsExpress
+        - nodetsExpress
+        - nodejsFastify
+        - nodetsFastify
+        - nextjs
+        - python
+      template:
+        type: string
+        description: Template selected (multiple in case of EDA/CQRS)
+      includeCicd:
+        type: boolean
+        description: Whether CI/CD was included in the template
+
+jobs:  
+  send-email:
+    runs-on: ubuntu-latest 
+    name: Send Email
+    permissions:
+      contents: 'write'      
+      id-token: 'write'
+
+    # Values for retrieving the Kong token
+    env:
+      API_SCOPE: 2432
+      TOKEN_URL: "https://apigw-st.telus.com/st/token"
+
+    steps:
+      # Checkout repo to runner's local
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      # Retrieve kong access token
+      # Use credentials for SMTP proxy stored in Github secrets
+      - name: Get Kong token to call SMTP Proxy
+        run: |
+          response=$(curl --header "Content-Type:application/x-www-form-urlencoded" \
+                      -X POST --data \
+                      "grant_type=client_credentials&scope=${{ env.API_SCOPE }}&client_id=${{ secrets.SMTP_CLIENT_ID_NP }}&client_secret=${{ secrets.SMTP_CLIENT_SECRET_NP }}" \
+                      ${{ env.TOKEN_URL }} )
+
+          access_token=$(echo $response | jq -r '.access_token')
+          echo "ACCESS_TOKEN=$access_token" >> $GITHUB_ENV
+      
+      # Install node for send email script
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      # Install script dependencies
+      - name: Install Dependencies
+        working-directory: email-templates
+        run: npm install
+
+      # Run script
+      - name: Send Email
+        working-directory: email-templates
+        run: |-
+          npm run start -- ${{ github.event.inputs.emailAddress }} ${{ env.ACCESS_TOKEN }} ${{ github.event.inputs.targetRepo }} ${{ github.event.inputs.language }} ${{ github.event.inputs.template }} ${{ github.event.inputs.includeCicd }}
+      

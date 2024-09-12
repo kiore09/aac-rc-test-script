@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Primavera Authentication Display</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Parsed ID Token</h1>
+    <div>Given Name: <%= givenName || '' %></div><br>
+    <div>Family Name: <%= familyName || '' %></div><br>
+    <% if(locals.error) { %> 
+        <div>ERROR: Exception Caught - <%= error || '' %></div>
+    <% } %>
+</body>
+</html>

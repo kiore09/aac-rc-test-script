@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+    <body>
+        <h1>Google Cloud Firestore Demo</h1>
+
+        <p>Click <a href="/">here</a> to return to the index page</p>
+
+        <p>Current Collection Name: <b th:text="${collectionName}" /></p>
+
+        <hr class="solid">
+
+        <!-- Display all documents in the current collection -->
+        <p>List of documents in collection:</br>===========</br></p>
+        <p th:text="${error}" />
+        <ul>
+            <li th:each="docData : ${docList}" th:text="${docData}"></li>
+        </ul>
+    </body>
+</html>

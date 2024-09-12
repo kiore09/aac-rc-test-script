@@ -1,0 +1,42 @@
+steps:
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['clean', 'verify']
+    dir: '.'
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: deploy java DLP  function
+    args:
+      - gcloud
+      - functions
+      - deploy
+      - ${_FUNCTION_TITLE}
+      - --source=${_SOURCE}
+      - --no-gen2
+      - --runtime=${_RUNTIME}
+      - --trigger-bucket=${_SOURCE_BUCKET}
+      - --region=${_REGION}
+      - --entry-point=${_FUNCTION_NAME}
+      - --set-env-vars=GCP_PROJECT=${PROJECT_ID},SENS_BUCKET=${_SENS_BUCKET},NON_SENS_BUCKET=${_NON_SENS_BUCKET}
+      - --ingress-settings=internal-only
+
+substitutions:
+  # Name of the function that will show up in the GCP console
+  _FUNCTION_TITLE: DLPFunction
+
+  # Fully qualified name of the function class containing the entry point
+  _FUNCTION_NAME: com.samples.telus.DLPFunction
+
+  # Points to the directory containing the pom.xml file
+  _SOURCE: .
+
+  # Runtime language and version
+  _RUNTIME: java17
+
+  # Region where the function will be deployed
+  _REGION: northamerica-northeast1
+
+
+  # By default, the function targets the buckets in np
+  # Replace with production bucket names when deploying to pr
+  _SOURCE_BUCKET: {{cookiecutter.dlpStorageCf.sourceBucket}}_np
+  _SENS_BUCKET: {{cookiecutter.dlpStorageCf.sensitiveBucket}}_np
+  _NON_SENS_BUCKET: {{cookiecutter.dlpStorageCf.nonSensitiveBucket}}_np

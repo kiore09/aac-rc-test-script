@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Sample Nodejs with GCP Firestore service</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Sample Nodejs with GCP Firestore service</h1>
+<hr class="solid">
+    <div>
+        <h3>Documents from Firestore Collection: <%= firestoreCollection %> </h3>
+        
+        <% for(let i=0; i<collectionDocuments.length; i++) { %>
+            <ul>
+                <li><%= collectionDocuments[i].id %>: <%= collectionDocuments[i].data %></li>
+            </ul>
+        <% } %>
+    </div>
+<hr class="solid">
+<div style="display: flex; flex-direction: column;">
+    <a href="/">Go back</a>
+    <% if(locals.error) { %>
+        <div>ERROR: Exception Caught - <%= error %> </div>
+    <% } %>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/devcontainers/images/tree/main/src/java
+{
+    "name": "Java Test Environment",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+  
+    "extensions": [
+        "vscjava.vscode-java-pack",
+        "sonarsource.sonarlint-vscode"
+    ],
+    
+    "features": {
+        "docker-in-docker": "latest"
+    }
+
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // "postCreateCommand": "<command here>",
+
+    // Uncomment to connect as a non-root user instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+    //"remoteUser": <name of user>,
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+}

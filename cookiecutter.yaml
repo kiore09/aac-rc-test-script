@@ -1,0 +1,268 @@
+# Enter a project name (typically, same as your repo name)
+name: enter-your-project-name
+
+# Enter a cmdbId value, the default value is 0000
+
+cmdbId: 12345
+
+# Enter a owner team value (the default value is telus),
+# your github username, and your email address
+ownerTeam: telus
+ownerUser: github-username
+emailAddress: "your-telus-email@telus.com"
+
+# set to true to include .devcontainer files for GitHub CodeSpaces
+includeDevContainer: true
+
+# Github Settings (the default values are na)
+maintainerTeam: na
+triageTeam: na
+writeTeam: na
+adminTeam: your_admin_team
+
+# Set to true, and uncomment this section to include branch protection
+includeBranchProtection: false
+# branchProtection:
+#   branchProtectionName: main
+#   branchProtectionRequirePullRequest: false
+#   branchProtectionRequireApproval: false
+#   requireReviewFromCodeOwners: false
+#   requireStatusChecksToPassBeforeMerging: false
+#   requireBranchesToBeUpToDateBeforeMerging: false
+#   requireSignedCommits: false
+
+##----------------------------------
+## Generate Sample code:
+## Options for programming language:
+##    java
+##    nodejsExpress
+##    nodetsExpress
+##    nodejsFastify
+##    nodetsFastify
+##    nextjs
+##    python
+##    
+## options for GCP service implementation
+## NOTE: Only one sample application will be created!
+##    basic             [hello world with no service implementation]
+##    gcstorage         [GCP Cloud Storage Sample]
+##    secretmgr         [GCP Secret Manager Sample]
+##    postgresql        [GCP CLoud SQL, PostgreSQL Sample]
+##    pubsub            [GCP PubSub Sample]
+##    firestore         [GCP Firestore Sample]
+##    memstore          [GCP Memorystore Sample]
+##    apiClient         [API Client Sample]
+##    gqlPsql           [GraphQL Client and Server Sample with PostgreSQL]
+##    primavera         [Primavera Application Sample]
+##
+##    etlStorageCf      [ETL Solution sample, Cloud Function triggered by Storage Bucket Event]
+##    dlpStorageCf      [DLP Solution sample, Cloud Function triggered by Storage Bucket Event]
+##    edaPublisher      [EDA Publisher sample MS. Creates sample document in project's Firestore] 
+##    edaSubscriber     [EDA Subscriber sample MS. Subscribes to PubSub Topic and updates Firestore document created by EDA-Publisher MS]
+##    edaFsTriggerCf    [EDA Firestore Triggered Cloud Function. Will be invoked when a new document is created by EDA-Publisher MS. Will publish document reference to PubSub Topic]
+##    cqrsPubsubTriggerCf     ** (Java/Express only)[CQRS PubSub Trigger Cloud Function. Will be invoked when message is posted to pubsub . the cloud function will store the JSON document in Firestore DB collection ]
+##    cqrsCmd                 ** (Java/Express only)[CQRS Command Pattern sample]
+##    cqrsQuery               ** (Java/Express only)[CQRS Query Pattern Sample]
+##
+##    unleashClient           ** (Java/Express only)[Unleash Client Sample]
+##
+##    singlePage              ** (NextJS only)[Single Page]
+##    multiPage               ** (NextJS only)[Multi Page]
+##    singlePageAPI           ** (NextJS only)[Single Page + API Router]
+##    multiPageAPI            ** (NextJS only)[Multi Page + API Router]
+
+## Uncomment this section and enter programming language and gcp service option for the sample application
+##----------------------------------
+# sampleCode:
+#    programmingLanguage : java
+#    gcpServiceSample : basic
+
+##----------------------------------
+## gcstorage settings
+## Uncomment this section for GCP Cloud Storage configuration
+##----------------------------------
+#gcstorage:
+#  projectId: gcp_project_id
+#  storageBucket: your_storage_bucket_name
+
+##----------------------------------
+## secretmgr settings
+## Uncomment this section for GCP Secret Manager configuration
+##----------------------------------
+#secretmgr:
+#  projectId: gcp_project_id
+#  sampleSecret: your_secret_name
+
+##----------------------------------
+## postgresql Setting
+## Uncomment this section for cloud PostgreSql
+##----------------------------------
+#postgresql:
+#  projectId: gcp_project_id
+#  dbName: your_database_name
+#  secretUserKey: your_secret_db_user_key_name
+#  secretKeyName: your_secret_key_name
+
+##----------------------------------
+## pubsub Setting
+## Uncomment this section for cloud PubSub
+##----------------------------------
+#pubsub:
+#  projectId: gcp_project_id
+#  topicName: your_topic_name
+#  subscriptionName: your_subscription_name
+
+##----------------------------------
+## firestore Settings
+## Uncomment this section for cloud Firestore
+##----------------------------------
+#firestore:
+#  projectId: gcp_project_id
+#  firestoreCollection: your-firestore-col
+
+##----------------------------------
+## memstore Settings
+## Uncomment this section for cloud Memorystore
+##----------------------------------
+#memstore:
+#  redisIp: redis-instance-ip
+#  redisPort: redis-instance-port
+#  redisName: redis-instance-name
+
+##----------------------------------
+## apiClient Settings
+## Uncomment this section for sending requests to an API
+##----------------------------------
+#apiClient:
+#  projectId: gcp_project_id
+#  clientIdSecretName: your_id_secret_name
+#  clientSecretName: your_secret_name
+#  apiScope: your_scope
+#  apigwTokenUrl: your_token_url
+#  apiEndpointUrl: your_endpoint_url
+
+##----------------------------------
+## gqlPsql Settings
+## Uncomment this section for GraphQL with PostgreSQL database
+##----------------------------------
+#gqlPsql:
+#  projectId: gcp_project_id
+#  dbName: your_database_name
+#  secretUserKey: your_secret_db_user_key_name
+#  secretKeyName: your_secret_key_name
+
+##----------------------------------
+## primavera Settings
+## Uncomment this section for Primavera application
+##----------------------------------
+#primavera:
+#  dnsName: your-dns-name
+#  aRecordName: your-address-record-name
+
+##----------------------------------
+## etlStorageCf Settings
+## Uncomment this section for ETL Solution Sample with Cloud Function triggered by Storage Bucket Event
+##----------------------------------
+#etlStorageCf:
+#  cloudFunctionVersion: your-cloud-function-version (choose between: 1gen, 2gen)
+#  sourceBucket: your-source-storage-bucket
+#  targetBucket: your-target-storage-bucket
+
+##----------------------------------
+## dlpStorageCf Settings
+## Uncomment this section for DLP Solution Sample with Cloud Function triggered by Storage Bucket Event
+##----------------------------------
+#dlpStorageCf:
+#  cloudFunctionVersion: your-cloud-function-version (choose between: 1gen, 2gen)
+#  sourceBucket: your-source-storage-bucket
+#  sensitiveBucket: your-sensitive-storage-bucket
+#  nonSensitiveBucket: your-non-sensitive-storage-bucket
+
+##----------------------------------
+## edaPublisher Settings
+## Uncomment this section for EDA Publisher sample
+##----------------------------------
+#edaPublisher:
+#  projectId: gcp_project_id
+#  firestoreCollection: col-eda-pubsub-demo
+
+##----------------------------------
+## edaSubscriber Settings
+## Uncomment this section for EDA Subscriber sample
+##----------------------------------
+#edaSubscriber:
+#  projectId: gcp_project_id
+#  edaPullSubscription: eda-demo-pull-sub
+#  edaTopic: eda-demo-topic
+
+##----------------------------------
+## edaFsTriggerCf Settings
+## Uncomment this section for EDA Firestore Trigger Cloud Function sample
+##----------------------------------
+#edaFsTriggerCf:
+#  cloudFunctionVersion: your-cloud-function-version (choose between: 1gen, 2gen)
+#  firestoreCollection: col-eda-pubsub-demo
+#  edaTopic: eda-demo-topic
+
+##----------------------------------
+## cqrsCmd Settings
+## Uncomment this section for CQRS Command Pattern sample
+##----------------------------------
+#cqrsCmd:
+#  projectId: gcp_project_id
+#  dbName: your_database_name
+#  secretUserKey: your_secret_db_user_key_name
+#  secretKeyName: your_secret_key_name
+#  topicName: your_topic_name
+
+##----------------------------------
+## cqrsPubsubTriggerCf Settings
+## Uncomment this section for CQRS PubSub Trigger Cloud Function
+##----------------------------------
+#cqrsPubsubTriggerCf:
+#  cloudFunctionVersion: your-cloud-function-version (choose between: 1gen, 2gen)
+#  firestoreCollection: your-firestore-collection
+#  cqrsTopic: your-topic-name
+#  projectId: gcp-project-id
+
+##----------------------------------
+## cqrsQuery Settings
+## Uncomment this section for CQRS Query Pattern Sample 
+##----------------------------------
+#cqrsQuery:
+#  projectId: gcp_project_id
+#  firestoreCollection: col-cqrs-read-demo
+
+##----------------------------------
+## unleashClient Settings
+## Uncomment this section for Unleash Client Sample
+##----------------------------------
+#unleashClient:
+#  projectId: gcp_project_id
+#  unleashClientSecretName: unleash_client_secret_name
+#  unleashFlagName: flag_toggle_name
+
+##----------------------------------
+## CI/CD Pull Request Settings
+## Set to true, and uncomment this section to generate the CI/CD pull request
+##----------------------------------
+includeCicd: false
+#cicd:
+#  projectIdNp: gcp_project_id_np
+#  application: gcp_project_id_np
+#  gkeCluster: gke_cluster_name
+#  namespace: gke_namespace
+#  repository: name_of_this_repository
+#  port: 8080 or 3000
+#  branch: main
+#  from_openshift: no
+#  starterkit: true
+
+##----------------------------------
+## Request a Postman API Settings
+## Set to true, and uncomment this section to request Postman API
+##----------------------------------
+# includePostman: false
+# postman:
+#   postmanWorkspace: API Starter Kit
+#   postmanApi: your_postman_api

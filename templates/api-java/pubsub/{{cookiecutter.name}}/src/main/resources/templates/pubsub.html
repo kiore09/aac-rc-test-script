@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+    <body>
+        <h1>Google Cloud Pub/Sub Demo</h1>
+
+        <p>The following is a simple demo application for Google Cloud Pub/Sub. <a href="/">Click Here</a> to return to the index page</p>
+        <p th:text="${excdata}" />  <!-- Element to display error message if any -->
+
+        <hr class="solid">
+
+        <!-- On submission, redirect to POST /storage -->
+        <form action="#" th:action="@{/pubsub}" th:object="${backing}" method="post">
+
+            <!-- Map text input to message field on backing object -->
+            <p>Enter a message to publish: <input type="text" th:field="*{publishMessage}" /></p>
+            
+            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        </form>
+    </body>
+</html>

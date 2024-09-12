@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Send Email Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Send Email Demo Application</h1>
+	<hr class="solid">
+    <!-- On submission, redirect to GET /send-mail-->
+  <form action="#" th:action="@{/send-mail}" th:object="${backing}" method="post" enctype="multipart/form-data">
+    
+  	<label th:text="'From (should be an address ending in ' + ${fromDomain} + '):'"></label><br>
+	<input type="text" placeholder="do-not-reply@dev.gapps.telus.com" th:field="*{sender}"  /><br><br>
+
+    <label>To:</label><br>
+    <input type="text" placeholder="example.person@telus.com" th:field="*{receiver}"  /><br><br>
+
+    <label>Cc:</label><br>
+    <input type="text" placeholder="example.cc@telus.com" th:field="*{cc}"  /><br><br>
+
+    <label>Bcc:</label><br>
+    <input type="text" placeholder="example.bcc@telus.com" th:field="*{bcc}"  /><br><br>
+
+    <label>Subject:</label><br>
+    <input type="text" placeholder="Greeting"  th:field="*{subject}" /><br><br>
+
+    <label>Body:</label><br>
+    <textarea th:field="*{body}">Lorem Ipsum</textarea><br><br>
+
+    <input type="checkbox" th:field="*{isHtmlBody}" /> <label>Interpret body as HTML</label><br><br>
+
+    <label>Select Attachment(s) (total attachment file size should be smaller than 20MB):</label><br>
+    <input type="file" name="attachment" value="attachment" multiple th:field="*{attachment}"/><br><br>
+
+    <button type="submit">Send test email</button>
+  </form>
+  
+    <p th:text="${message}" />
+
+    <a href="/">Click Here</a> to return to the index page
+</body>
+</html>

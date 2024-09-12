@@ -1,0 +1,1277 @@
+# # https://github.com/telus/reference-architecture/blob/master/development/dependencies.md
+# # Hard coding the paths for each template
+# # open-pull-requests-limit is set to 20, 20 refers to the max PRs created for that specific template
+# # PR labels "express", "fastify", and "docker" should be created in the repo before adding this file to the repo
+
+# version: 2
+# updates:
+#   # api-java pom packages
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/api-client/{{cookiecutter.name}}" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/basic/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/firestore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/gcstorage/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/gql-psql/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/memstore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/postgresql/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/primavera/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/pubsub/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/secretmgr/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/api-java/unleash-client/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+
+#   # cqrs-java pom packages
+#   - package-ecosystem: "maven"
+#     directory: "/templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/cqrs-java/cqrs-pubsub-trigger-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/cqrs-java/cqrs-query/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+
+#   # dlp-java pom packages
+#   - package-ecosystem: "maven"
+#     directory: "/templates/dlp-java/dlp-storage-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+
+#   # eda-java pom packages
+#   - package-ecosystem: "maven"
+#     directory: "/templates/eda-java/eda-fs-trigger-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/eda-java/eda-publisher/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "maven"
+#     directory: "/templates/eda-java/eda-subscriber/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#
+#   # etl-java pom packages
+#   - package-ecosystem: "maven"
+#     directory: "/templates/etl-java/etl-storage-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#
+#
+#   # api-js npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/api-client/{{cookiecutter.name}}/app" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/basic/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/firestore/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/gcstorage/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/gql-psql/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/memstore/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/postgresql/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/primavera/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/pubsub/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/secretmgr/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js/unleash-client/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   # cqrs-js npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/cqrs-js/cqrs-pubsub-trigger-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   # dlp-js npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/dlp-js/dlp-storage-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   # eda-js npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/eda-js/eda-fs-trigger-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/eda-js/eda-publisher/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/eda-js/eda-subscriber/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   # etl-js npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/etl-js/etl-storage-cf/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#
+#   # api-js-fastify npm packages
+#
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js-fastify/basic/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js-fastify/firestore/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js-fastify/memstore/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js-fastify/pubsub/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#
+#   # api-ts npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-ts/basic/{{cookiecutter.name}}/app" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-ts/firestore/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-ts/postgresql/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#
+#
+#   # api-ts-fastify npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-ts-fastify/basic/{{cookiecutter.name}}/app" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "typescript"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/api-ts-fastify/secretmgr/{{cookiecutter.name}}/app"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "typescript"
+#       - "dependencies"
+#
+#
+#   # NextJS npm packages
+#   - package-ecosystem: "npm"
+#     directory: "/templates/nextjs/single-page/{{cookiecutter.name}}" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/nextjs/multi-page/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/nextjs/single-page-api/{{cookiecutter.name}}" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#   - package-ecosystem: "npm"
+#     directory: "/templates/nextjs/multi-page-api/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+
+#   #---------------------------------------------------------------------------------------------------------------#
+#   # Workflow files stored in the
+#   # default location of `.github/workflows`
+
+#   # api-java workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/api-client/{{cookiecutter.name}}/.github/workflows" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/basic/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/firestore/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/gcstorage/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/gql-psql/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/memstore/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/postgresql/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/primavera/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/pubsub/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/secretmgr/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-java/unleash-client/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+
+#   # cqrs-java workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/cqrs-java/cqrs-query/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#
+#   # eda-java workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/eda-java/eda-publisher/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/eda-java/eda-subscriber/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#
+#
+#   # api-js workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/api-client/{{cookiecutter.name}}/.github/workflows" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/basic/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/firestore/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/gcstorage/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/gql-psql/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/memstore/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/postgresql/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/primavera/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/pubsub/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/secretmgr/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js/unleash-client/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   # cqrs-js workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/cqrs-js/cqrs-query/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+
+#   # eda-js workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/eda-js/eda-publisher/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/eda-js/eda-subscriber/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#
+#
+#   # api-js-fastify workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js-fastify/basic/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js-fastify/firestore/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js-fastify/gcstorage/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js-fastify/memstore/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js-fastify/pubsub/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js-fastify/secretmgr/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-js-fastify/unleash-client/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#
+#
+#     # api-ts workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-ts/basic/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-ts/firestore/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-ts/postgresql/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#
+#
+#     # api-ts-fastify workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-ts-fastify/basic/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "typescript"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/api-ts-fastify/secretmgr/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "typescript"
+#       - "dependencies"
+#
+#
+#   # NextJS workflows
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/nextjs/single-page/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/nextjs/multi-page/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/nextjs/single-page-api/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#   - package-ecosystem: "github-actions"
+#     directory: "/templates/nextjs/multi-page-api/{{cookiecutter.name}}/.github/workflows"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#
+#   #---------------------------------------------------------------------------------------------------------------#
+#
+#   # Docker
+#
+#   # api-java docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/api-client/{{cookiecutter.name}}" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/basic/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/firestore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/gcstorage/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/gql-psql/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/memstore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/postgresql/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/primavera/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/pubsub/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/secretmgr/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-java/unleash-client/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+
+#   # cqrs-java docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/cqrs-java/cqrs-cmd/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/cqrs-java/cqrs-query/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#
+#   # eda-java docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/eda-java/eda-publisher/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#   - package-ecosystem: "docker"
+#     directory: "/templates/eda-java/eda-subscriber/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     labels:
+#       - "java"
+#       - "dependencies"
+#       - "docker"
+#     open-pull-requests-limit: 20
+#
+#
+#   # api-js docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/api-client/{{cookiecutter.name}}" # Location of package manifests
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/basic/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/firestore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/gcstorage/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/gql-psql/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/memstore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/postgresql/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/primavera/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/pubsub/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/secretmgr/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js/unleash-client/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#
+#   # cqrs-js docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/cqrs-js/cqrs-cmd/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/cqrs-js/cqrs-query/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+
+#   # eda-js docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/eda-js/eda-publisher/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/eda-js/eda-subscriber/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#
+#   # api-js-fastify docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js-fastify/basic/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js-fastify/firestore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js-fastify/gcstorage/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js-fastify/memstore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js-fastify/pubsub/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js-fastify/secretmgr/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-js-fastify/unleash-client/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#
+#   # api-ts docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-ts/basic/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-ts/firestore/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-ts/postgresql/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "express"
+#       - "typescript"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#
+#   # api-ts-fastify docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-ts-fastify/basic/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "typescript"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/api-ts-fastify/secretmgr/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "fastify"
+#       - "typescript"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#
+#   # NextJS docker
+#   - package-ecosystem: "docker"
+#     directory: "/templates/nextjs/single-page/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/nextjs/multi-page/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/nextjs/single-page-api/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+#   - package-ecosystem: "docker"
+#     directory: "/templates/nextjs/multi-page-api/{{cookiecutter.name}}"
+#     schedule:
+#       interval: "weekly"
+#     open-pull-requests-limit: 20
+#     labels:
+#       - "nextjs"
+#       - "dependencies"
+#       - "docker"
+#     ignore:
+#       - dependency-name: "node"
+

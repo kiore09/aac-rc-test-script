@@ -1,0 +1,116 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a simple API application made with Spring Boot and documented with Springfox",
+    "version": "0.1",
+    "title": "Sample API with Springdocs",
+    "contact": {
+      "name": "Some One",
+      "url": "https://aUrl.com",
+      "email": "someone@example.com"
+    }
+  },
+  "host": "localhost",
+  "basePath": "/",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/user/{userId}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get user by id",
+        "description": "Returns the user with the input id",
+        "operationId": "getUserByIdUsingGET",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid input id"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "No user found with input id"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Get all users",
+        "description": "Returns all users in the \"database\" in a rendered view",
+        "operationId": "getAllUsersUsingGET",
+        "produces": ["text/html"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "string"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "Alice",
+          "description": "First name of the user"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Smith",
+          "description": "Last name of the user"
+        },
+        "userId": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1,
+          "description": "User\u0027s id"
+        }
+      },
+      "title": "User",
+      "description": "User object"
+    }
+  },
+  "x-api-engagement-num": "910",
+  "x-apiname": "demoApiName",
+  "x-cmdbid": "21740",
+  "x-responsetime": "3000",
+  "x-tmfdomain": "common",
+  "x-tps": "1000"
+}

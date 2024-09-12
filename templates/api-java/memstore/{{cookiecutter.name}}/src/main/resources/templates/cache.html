@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <body>
+        <h1>Java Memorystore Demo (Redis)</h1>
+        <hr class="solid">
+
+        <p>The following is a simple demo application for writing and retrieving key-value pairs into Google Memorystore. <a href="/">Click Here</a> to return to the index page</p>
+
+        <hr class="solid">
+        <div>
+            <h3 th:text="'Redis Instance Location: ' + ${redisLoc}"/>
+
+            <!-- Input form for saving key-value pair -->
+            <form th:action="@{/cache}" method="POST" th:object="${entry}">
+                <p>Enter key here: <input type="text" th:field="*{key}" /></p>
+
+                <p>Enter value here:</p>
+                <div>
+                    <textarea type="text-area" class="form-control" placeholder="Enter some text here" 
+                    th:field="*{value}"></textarea>
+                </div>
+
+                <input class="button" type="submit" value="Save Entry">
+            </form>
+
+            <!-- Display result/error here -->
+            <p th:text="${result}"/>
+        </div>
+    </body>
+</html>

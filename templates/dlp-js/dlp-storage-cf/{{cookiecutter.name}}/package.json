@@ -1,0 +1,19 @@
+{
+  "name": "etl-storage-cf",
+  "version": "1.0.0",
+  "description": "GCP ETL Storage Sample in Nodejs",
+  "main": "index.js",
+  "author": "TELUS",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/storage": "^7.0.1",
+    "@google-cloud/logging-winston": "^6.0.0",
+    "@google-cloud/dlp": "^5.0.1",
+    "dotenv": "^16.0.0",
+    "winston": "^3.8.2",
+    "tmp": "^0.2.3"
+  },
+  "engines": {
+    "node": "^20"
+  }
+}

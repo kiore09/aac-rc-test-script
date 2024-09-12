@@ -1,0 +1,321 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: arch-102-nextjs
+  title: NextJS Application Template
+  description: A sample app for NextJS UI apps. You can find more information about this template [here](https://simplify.telus.com/docs/architecture-as-code/docs/nextjs-ui.md).
+  tags:
+    - nextjs
+    - javascript
+  
+spec:
+  owner: Architecture as Code
+  templater: Arch-as-code-team
+  type: api
+  path: "."
+    # these are the steps which are rendered in the frontend with the form input
+  parameters:
+    - title: Application Info
+      type: object
+      description: "Note: Before creating your repository, login using your GitHub Account. GitHub repo name must not yet exist, and can only be: alphanumeric [a-z0-9], lowercase, hyphen-separated"
+      required:
+        - repoUrl      
+        - gcpServiceSample
+        - user
+        - emailAddress
+      properties:
+        user:
+          title: GitHub Account
+          type: string
+          pattern: '^\S+$'
+          description: Select your GitHub Account
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: User
+        
+        emailAddress:
+          title: Email Address
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+          type: string
+          description: Enter your user email address
+
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+            allowedOwners:
+              - telus
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+        owner:
+          title: Owner
+          type: string
+          pattern: '^\S+$'
+          description: 'Select the owner team of the app.'
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: telus      
+        cmdb_id:
+          title: CMDB ID
+          type: number
+          description: Enter your application CMDB ID. If not entered, default value is 12345.
+          default: 12345
+        gcpServiceSample:
+          title: NextJS Application
+          description: Choose the NextJS app
+          type: string
+          enum:
+            - singlePage
+            - multiPage
+            - singlePageAPI
+            - multiPageAPI
+          default: singlePage
+          enumNames:
+            - Single Page
+            - Multi Page
+            - Single Page + API Router
+            - Multi Page + API Router
+      dependencies:
+        gcpServiceSample:
+          oneOf:
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - singlePage
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - multiPage
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - singlePageAPI
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - multiPageAPI
+
+    - title: Advanced Repo Setting Options
+      description: You can specify advanced repository settings for your github repo.
+      properties:
+        adminTeam:
+          title: Admin Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Admin permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+        maintainerTeam:
+          title: Maintainer Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Maintain permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        triageTeam:
+          title: Triage Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Triage permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        writeTeam:
+          title: Write Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Write permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        branchProtection:
+          title: Add branch protection rules
+          type: boolean
+          default: true
+      required:
+        - adminTeam
+      dependencies:
+        branchProtection:
+          oneOf:
+            - properties:
+                branchProtection:
+                  enum:
+                    - true
+                branchProtectionName:
+                  title: Branch Name
+                  description: Branch Name (main)
+                  type: string
+                  default: main
+                branchProtectionRequirePullRequest:
+                  title: Require a pull request before merging 
+                  description: Require a pull request before merging
+                  type: boolean
+                  default: true    
+                branchProtectionRequireApproval:
+                  title: Require Approvals before merging pull requests 
+                  description: When enabled, while requiring pull request, merging into the given branch will require at least 1 approval
+                  type: boolean
+                  default: true
+                requireReviewFromCodeOwners:
+                  title: Require review from Code Owners
+                  description: When enabled, merging pull requests into the given branch will require a review from designated Code Owners
+                  type: boolean
+                  default: true
+                requireStatusChecksToPassBeforeMerging:  
+                  title: Require status checks to pass before merging
+                  description: When enabled, merging pull requests into the given branch will require all configured status checks to pass successfully
+                  type: boolean
+                  default: true
+                requireBranchesToBeUpToDateBeforeMerging:  
+                  title: Require branches to be up to date before merging
+                  description: When enabled, the branch must be up to date with the base branch before the pull request can be merged
+                  type: boolean
+                  default: true
+                requireSignedCommits:
+                  title: Require signed commits
+                  description: When enabled, all commits pushed to the branch must be signed with a verified signature
+                  type: boolean
+                  default: true
+            - properties:
+                branchProtection:
+                  enum:
+                    - false   
+
+    - title: GKE Deployment Pipeline
+      description: "You have the option to request an automatic pull request with CI/CD configurations to be opened on your new repository. If you choose not to do this now, you can trigger this process later."
+      required:
+        - includeCicd
+      properties:
+        includeCicd:
+          title: Submit a pull request with GKE Cloud Deploy CI/CD configuration for your newly created repository?
+          type: boolean
+          default: false
+      dependencies:
+        includeCicd:
+          oneOf:
+            - properties:
+                includeCicd:
+                  enum:
+                    - false
+            - properties:
+                includeCicd:
+                  enum:
+                    - true
+                projectIdNp:
+                  title: GCP Non-Prod Project ID
+                  description: Non-Prod GCP project where CICD will be run
+                  type: string
+                  pattern: '^\S+$'
+                gkeCluster:
+                  title: Name of the GKE cluster in non-prod
+                  type: string
+                  enum: 
+                    - private-na-ne1-001
+                    # - public-yul-np-002
+                    # - private-yul-np-001
+                    # - devops-yul-np-002
+                    # - lab-yul-np-001
+                  enumNames:
+                    - private-na-ne1-001
+                  default: private-na-ne1-001
+                namespace:
+                  title: Namespace
+                  description: Namespace assigned to you in the GKE cluster
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectIdNp
+                - gkeCluster
+                - namespace
+          
+  # here's the steps that are executed in series in the scaffolder backend
+  steps:
+    - id: createRepoWorkflow
+      name: Start Repo Creation Workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: github.com?owner=telus&repo=arch-code-template-base-dev
+        workflowId: create-repo-from-simplify.yaml
+        branchOrTagName: main
+        workflowInputs:
+          repoName: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          inputJson: >
+           {
+              "name": "${{ (parameters.repoUrl | parseRepoUrl).repo }}",
+              "cmdbId": ${{ parameters.cmdb_id }},
+              "ownerUser": "${{ parameters.user }}",
+              "ownerTeam": "${{ parameters.owner }}",
+              "createdFrom": "backstage-dev",
+              "emailAddress": "${{ parameters.emailAddress }}",
+              "includeCicd": ${{ parameters.includeCicd }},
+              "maintainerTeam": "${{ parameters.maintainerTeam }}",
+              "triageTeam": "${{ parameters.triageTeam }}",
+              "writeTeam": "${{ parameters.writeTeam }}",
+              "adminTeam": "${{ parameters.adminTeam }}",
+              "includeBranchProtection": "${{ parameters.branchProtection }}",
+              "branchProtection": {
+                "branchProtectionName": "${{ parameters.branchProtectionName }}",
+                "branchProtectionRequirePullRequest": "${{ parameters.branchProtectionRequirePullRequest }}",
+                "branchProtectionRequireApproval": "${{ parameters.branchProtectionRequireApproval }}",
+                "requireReviewFromCodeOwners": "${{ parameters.requireReviewFromCodeOwners }}",
+                "requireStatusChecksToPassBeforeMerging": "${{ parameters.requireStatusChecksToPassBeforeMerging }}",
+                "requireBranchesToBeUpToDateBeforeMerging": "${{ parameters.requireBranchesToBeUpToDateBeforeMerging }}",
+                "requireSignedCommits": "${{ parameters.requireSignedCommits }}"
+              },
+              "sampleCode": {
+                "programmingLanguage": "nextjs",
+                "gcpServiceSample": "${{ parameters.gcpServiceSample }}"
+                },
+              "cicd": {
+                "projectIdNp": "${{ parameters.projectIdNp }}",
+                "application": "${{ (parameters.repoUrl | parseRepoUrl).repo }}",
+                "gkeCluster": "${{ parameters.gkeCluster }}",
+                "namespace": "${{ parameters.namespace }}",
+                "repository": "${{ (parameters.repoUrl | parseRepoUrl).repo }}",
+                "port": "3000",
+                "branch": "main",
+                "from_openshift": "no",
+                "starterkit": "true"
+              }
+            }
+          
+    - id: pause
+      name: Pause for Repo Creation
+      action: roadiehq:utils:sleep
+      input:
+        amount: 20
+
+    - id: pause-for-creation-message
+      name: Please be patient with us as this process may take a few minutes
+      action: roadiehq:utils:sleep
+      input:
+        amount: 0
+    
+    - id: pause-for-welcome-email-message
+      name: Please wait for the welcome email to ensure your repository is completely configured before visiting the repository links below.
+      action: roadiehq:utils:sleep
+      input:
+        amount: 0
+      
+  output:
+    links:
+      - title: Your new repository ...
+        url: https://github.com/telus/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+      - title: Please rate your experience...
+        url: https://forms.gle/Ptah4nA2a1NK3iqw6
+  

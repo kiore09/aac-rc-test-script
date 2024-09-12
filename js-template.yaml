@@ -1,0 +1,842 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: arch-101-basic
+  title: NodeJS Basic API Template
+  description: A sample app for NodeJS backend with optional GCP integration. You can find more information about this template [here](https://simplify.telus.com/docs/architecture-as-code/docs/node-basic.md).
+  tags:
+    - node
+    - fastify
+    - javascript
+    - typescript
+    - gcp
+    - arch-as-code
+    - logging
+    - gke-cron-job
+    - storage
+    - firestore
+    - pubsub
+    - secret
+    - memorystore
+    - cloud-sql
+    - postgresql
+    - graphql
+    - smtp-client
+    - unleash
+spec:
+  owner: Architecture as Code
+  templater: Arch-as-code-team
+  type: api
+  path: "."
+    # these are the steps which are rendered in the frontend with the form input
+  parameters:
+    - title: Application Info
+      type: object
+      description: "Note: Before creating your repository, login using your GitHub Account. GitHub repo name must not yet exist, and can only be: alphanumeric [a-z0-9], lowercase, hyphen-separated"
+      required:
+        - repoUrl      
+        - nodeFramework
+        - gcpServiceSample
+        - user
+        - emailAddress
+      properties:
+        user:
+          title: GitHub Account
+          type: string
+          pattern: '^\S+$'
+          description: Select your GitHub Account
+          ui:field: OwnerPicker
+          ui:options:
+            catalogFilter:
+              kind: User
+        
+        emailAddress:
+          title: Email Address
+          pattern: '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+          type: string
+          description: Enter your user email address
+
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+            allowedOwners:
+              - telus
+            requestUserCredentials:
+              secretsKey: USER_OAUTH_TOKEN
+        owner:
+          title: Owner
+          type: string
+          pattern: '^\S+$'
+          description: 'Select the owner team of the app.'
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: telus      
+        cmdb_id:
+          title: CMDB ID
+          type: number
+          description: Enter your application CMDB ID. If not entered, default value is 12345.
+          default: 12345
+        nodeFramework:
+          title: NodeJS Framework
+          description: Choose the framework you would like to use
+          type: string
+          enum:
+            - nodejsExpress
+            - nodetsExpress
+            - nodejsFastify
+            - nodetsFastify
+          default: nodejsExpress
+          enumNames:
+            - Express
+            - Express Typescript
+            - Fastify
+            - Fastify Typescript
+          ui:widget: radio
+      dependencies:
+        nodeFramework:
+          oneOf:
+            - properties:
+                nodeFramework:
+                  enum:
+                    - nodejsExpress
+                gcpServiceSample:
+                  title: "Select API implementation sample:"
+                  description: Additional GCP Services to include in the sample application
+                  type: string
+                  enum:
+                    - basic
+                    - firestore
+                    - gcstorage
+                    - secretmgr
+                    - pubsub
+                    - memstore
+                    - postgresql
+                    - gqlPsql
+                    - apiClient
+                    - primavera
+                    - unleashClient
+                  enumNames:
+                    - No Additional Services
+                    - Google Cloud Firestore
+                    - Google Cloud Storage
+                    - Google Cloud Secret Manager
+                    - Google Cloud PubSub
+                    - Google Cloud Memorystore for Redis
+                    - Google Cloud SQL (PostgreSQL + MySQL)
+                    - Graphql + Google Cloud SQL (PostgreSQL + MySQL)
+                    - Outbound Email Client
+                    - Web App - Kong Onboarding
+                    - Unleash Client
+            - properties:
+                nodeFramework:
+                  ui:widget: radio
+                  enum:
+                    - nodetsExpress
+                gcpServiceSample:
+                  title: "Select API implementation sample:"
+                  description: Additional GCP Services to include in the sample application
+                  type: string
+                  enum:
+                    - basic
+                    - firestore
+                    - secretmgr
+                    - gcstorage
+                    - memstore
+                    - pubsub
+                    - postgresql
+                    - gqlPsql
+                    - apiClient
+                    - primavera
+                  enumNames:
+                    - No Additional Services
+                    - Google Cloud Firestore
+                    - Google Cloud Secret Manager
+                    - Google Cloud Storage
+                    - Google Cloud Memorystore for Redis
+                    - Google Cloud PubSub
+                    - Google Cloud SQL (PostgreSQL + MySQL)
+                    - Graphql + Google Cloud SQL (PostgreSQL + MySQL)
+                    - Outbound Email Client
+                    - Web App - Kong Onboarding
+            - properties:
+                  nodeFramework:
+                    ui:widget: radio
+                    enum:
+                      - nodejsFastify
+                  gcpServiceSample:
+                    title: "Select API implementation sample:"
+                    description: Additional GCP Services to include in the sample application
+                    type: string
+                    enum:
+                      - basic
+                      - firestore
+                      - gcstorage
+                      - secretmgr
+                      - memstore
+                      - pubsub
+                      - unleashClient
+                    enumNames:
+                      - No Additional Services
+                      - Google Cloud Firestore
+                      - Google Cloud Storage
+                      - Google Cloud Secret Manager
+                      - Google Cloud Memorystore for Redis
+                      - Google Cloud PubSub
+                      - Unleash Client
+            - properties:
+                  nodeFramework:
+                    ui:widget: radio
+                    enum:
+                      - nodetsFastify
+                  gcpServiceSample:
+                    title: "Select API implementation sample:"
+                    description: Additional GCP Services to include in the sample application
+                    type: string
+                    enum:
+                      - basic
+                      - secretmgr
+                    enumNames:
+                      - No Additional Services
+                      - Google Cloud Secret Manager
+        gcpServiceSample:
+          oneOf:
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - basic
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - gcstorage
+                storageBucket:
+                  title: Storage Bucket
+                  description: The name of the storage bucket to use in the sample app (automatically suffixed with _np).
+                  type: string
+                  pattern: '^\S+$'
+                projectId:
+                  title: GCP project ID
+                  description: ID of the GCP project containing the storage bucket.
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectId
+                - storageBucket
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - secretmgr
+                sampleSecret:
+                  title: Secret Name
+                  description: The name of the secret in your GCP project to use in the sample app.
+                  type: string
+                  pattern: '^\S+$'
+                projectId:
+                  title: GCP project ID
+                  description: ID of the GCP project containing the secret.
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectId
+                - sampleSecret
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - firestore
+                firestoreCollection:
+                  title: Firestore Collection Name
+                  description: The name of the Firestore collection in your GCP project to use in the sample app.
+                  type: string
+                  pattern: '^\S+$'
+                projectId:
+                  title: GCP project ID
+                  description: ID of the GCP project containing the collection.
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectId
+                - firestoreCollection
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - pubsub
+                topicName:
+                  title: Topic ID
+                  description: The Topic Id where the messages will be sent by the publisher app
+                  type: string
+                  pattern: '^\S+$'
+                subscriptionName:
+                  title: Subscription ID
+                  description: The Subscription Id representing the stream of messages to be pulled by the subscriber app
+                  type: string
+                  pattern: '^\S+$'
+                projectId:
+                  title: GCP project ID
+                  description: GCP Project Id where PubSub is deployed
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - topicName
+                - subscriptionName
+                - projectId
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - memstore
+                redisIp:
+                  title: Redis Host
+                  description: Primary Endpoint address of the Redis Instance (without the port number)
+                  type: string
+                  pattern: '^\S+$'
+                redisPort:
+                  title: Redis Port
+                  description: Port that the Redis Instance is listening on
+                  type: string
+                  pattern: '^\S+$'
+                redisName:
+                  title: Redis Instance Id
+                  description: Id of the Redis Instance (for terraform file generation)
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - redisIp
+                - redisPort
+                - redisName
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - postgresql
+                secretUserKey:
+                  title: Secret Name for Database Admin User
+                  description: Name of the secret that holds the database admin username
+                  type: string
+                  pattern: '^\S+$'
+                secretKeyName:
+                  title: Secret Name for Database Password
+                  description: Name of the secret that holds the database admin password
+                  type: string
+                  pattern: '^\S+$'
+                dbName:
+                  title: Database Name
+                  description: The name of the database in the Cloud SQL instance, to be accessed by the sample application.
+                  type: string
+                  pattern: '^\S+$'
+                projectId:
+                  title: GCP project ID
+                  description: GCP Project Id where Cloud SQL is deployed
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectId
+                - dbName
+                - secretUserKey
+                - secretKeyName
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - gqlPsql
+                secretUserKey:
+                  title: Secret Name for Database Admin User
+                  description: Name of the secret that holds the database admin username
+                  type: string
+                  pattern: '^\S+$'
+                secretKeyName:
+                  title: Secret Name for Database Password
+                  description: Name of the secret that holds the database admin password
+                  type: string
+                  pattern: '^\S+$'
+                dbName:
+                  title: Database Name
+                  description: The name of the database in the Cloud SQL instance, to be accessed by the sample application.
+                  type: string
+                  pattern: '^\S+$'
+                projectId:
+                  title: GCP project ID
+                  description: GCP Project Id where Cloud SQL is deployed
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectId
+                - dbName
+                - secretUserKey
+                - secretKeyName
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - apiClient
+                clientIdSecretName:
+                  title: Secret Name for Client ID
+                  description: Name of the secret (in GCP) containing the client ID
+                  type: string
+                  pattern: '^\S+$'
+                clientSecretName:
+                  title: Secret Name for Client Secret
+                  description: Name of the secret (in GCP) containing the client secret
+                  type: string
+                  pattern: '^\S+$'
+                apiScope:
+                  title: API Scope
+                  description: Scope of the acquired API
+                  type: string
+                  pattern: '^\S+$'
+                apiGwTokenUrl:
+                  title: Gateway Token URL
+                  description: URL for retrieving the API gateway token
+                  type: string
+                  pattern: '^\S+$'
+                apiEndpointUrl:
+                  title: API Endpoint URL
+                  description: URL endpoint for the acquired API
+                  type: string
+                  pattern: '^\S+$'
+                projectId:
+                  title: GCP project ID
+                  description: GCP Project Id containing the API Client Secrets
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectId
+                - clientIdSecretName
+                - clientSecretName
+                - apiScope
+                - apiGwTokenUrl
+                - apiEndpointUrl
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - primavera
+                dnsName:
+                  title: DNS Name
+                  description: Name to be used for the web application's subdomain
+                  type: string
+                  pattern: '^\S+$'
+                aRecordName:
+                  title: Ingress Name
+                  description: Name of the ingress to be used for the web application
+                  type: string
+                  enum:
+                    - public-public-yul-np-002
+                    - public-public-yul-pr-002
+                    - apigw-public-yul-np-002
+                    - apigw-public-yul-pr-002
+                    - webgw-public-yul-np-002
+                    - webgw-public-yul-pr-002
+                    - webgw-private-yul-np-001
+                    - webgw-private-yul-pr-001
+                    - webgw-private-nane-np-001
+                    - webgw-private-nane-pr-001
+                  default: webgw-private-nane-np-001
+              required:
+                - dnsName
+                - aRecordName
+            - properties:
+                gcpServiceSample:
+                  enum:
+                    - unleashClient
+                projectId:
+                  title: GCP project ID
+                  description: GCP Project Id
+                  type: string
+                  pattern: '^\S+$'
+                unleashOnboard:
+                  title: Would you like automated Unleash Project & Toggle creation?
+                  type: boolean
+                  default: false
+              required:
+                - projectId
+              dependencies:
+                unleashOnboard:
+                  oneOf:
+                    - properties:
+                        unleashOnboard:
+                          enum:
+                            - false
+                        unleashGCPSecretName:
+                          title: Secret Name For Unleash Client Token
+                          description: Name of the secret (in GCP) containing the Unleash client token
+                          type: string
+                          pattern: '^\S+$'
+                        unleashToggleName:
+                          title: Existing Unleash Toggle Name
+                          description: Existing name for your Unleash Toggle
+                          type: string
+                          pattern: '^\S+$'
+                      required:
+                        - unleashGCPSecretName
+                        - unleashToggleName
+                    - properties:
+                        unleashOnboard:
+                          enum:
+                            - true
+                        unleashOnboardCheck:
+                          title: Ensure that you have completed onboarding onto Unleash through go/AccessNow already
+                          type: string
+                          enum:
+                            - complete
+                          enumNames:
+                            - I have completed Unleash onboarding through AccessNow
+
+                      required:
+                        - unleashOnboardCheck
+                      dependencies:
+                        unleashOnboardCheck:
+                          oneOf:
+                            - properties:
+                                unleashOnboardCheck:
+                                  enum:
+                                    - complete
+                                unleashProjectID:
+                                  title: Unleash Project ID
+                                  description: Unique ID for the Unleash project that will be created. (e.g. arch-toggle-project)
+                                  type: string
+                                  pattern: '^\S+$'
+                                unleashProjectName:
+                                  title: Unleash Project Name
+                                  description: Name for the Unleash project that will be created
+                                  type: string
+                                  pattern: '^\S+$'
+                                unleashProjectDesc:
+                                  title: Unleash Project Description
+                                  description: Description for the Unleash project that will be created
+                                  type: string
+                                  pattern: '^\S+$'
+                                unleashToggleName:
+                                  title: Unleash Feature Toggle Name
+                                  description: Unique name for the Unleash toggle that will be created
+                                  type: string
+                                  pattern: '^\S+$'
+                              required:
+                                - unleashProjectID
+                                - unleashProjectName
+                                - unleashProjectDesc
+                                - unleashToggleName
+
+    - title: Advanced Repo Setting Options
+      description: You can specify advanced repository settings for your github repo.
+      properties:
+        adminTeam:
+          title: Admin Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Admin permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+        maintainerTeam:
+          title: Maintainer Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Maintain permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        triageTeam:
+          title: Triage Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Triage permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        writeTeam:
+          title: Write Team
+          type: string
+          pattern: ^\S+$
+          description: Select a team with Write permission. (The team should not be the same as the team selected for another role.)
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+          default: na
+        branchProtection:
+          title: Add branch protection rules
+          type: boolean
+          default: true
+      required:
+        - adminTeam
+      dependencies:
+        branchProtection:
+          oneOf:
+            - properties:
+                branchProtection:
+                  enum:
+                    - true
+                branchProtectionName:
+                  title: Branch Name
+                  description: Branch Name (main)
+                  type: string
+                  default: main
+                branchProtectionRequirePullRequest:
+                  title: Require a pull request before merging 
+                  description: Require a pull request before merging
+                  type: boolean
+                  default: true    
+                branchProtectionRequireApproval:
+                  title: Require Approvals before merging pull requests 
+                  description: When enabled, while requiring pull request, merging into the given branch will require at least 1 approval
+                  type: boolean
+                  default: true
+                requireReviewFromCodeOwners:
+                  title: Require review from Code Owners
+                  description: When enabled, merging pull requests into the given branch will require a review from designated Code Owners
+                  type: boolean
+                  default: true
+                requireStatusChecksToPassBeforeMerging:  
+                  title: Require status checks to pass before merging
+                  description: When enabled, merging pull requests into the given branch will require all configured status checks to pass successfully
+                  type: boolean
+                  default: true
+                requireBranchesToBeUpToDateBeforeMerging:  
+                  title: Require branches to be up to date before merging
+                  description: When enabled, the branch must be up to date with the base branch before the pull request can be merged
+                  type: boolean
+                  default: true
+                requireSignedCommits:
+                  title: Require signed commits
+                  description: When enabled, all commits pushed to the branch must be signed with a verified signature
+                  type: boolean
+                  default: true
+            - properties:
+                branchProtection:
+                  enum:
+                    - false
+        
+    # requesting information about the Postman API (if you choose to create one)
+    # - title: Postman
+    #   description: You have the option to automatically create a Postman API through the starter kit. 
+    #     The API will be created in the "API Starter Kit" Workspace; please move it to your workspace after filling out the starter kit.
+    #   required:
+    #     - includePostman
+    #   properties:
+    #     includePostman:
+    #       title: Request a Postman API to be created?
+    #       type: boolean
+    #       default: false
+    #   dependencies:
+    #     includePostman:
+    #       oneOf:
+    #         - properties:
+    #             includePostman:
+    #               enum:
+    #                 - false
+    #         - properties:
+    #             includePostman:
+    #               enum:
+    #                 - true
+    #             postmanWorkspace:
+    #               title: Select Postman Workspace
+    #               description: Postman Workspace to create the Postman API in.
+    #               type: string
+    #               default: API Starter Kit
+    #               readOnly: true
+    #             postmanApi:
+    #               title: Postman API Name
+    #               type: string
+    #               description: Enter the name of your Postman API.
+    #           required:
+    #             - postmanApi
+
+    - title: GKE Deployment Pipeline
+      description: "You have the option to request an automatic pull request with CI/CD configurations to be opened on your new repository. If you choose not to do this now, you can trigger this process later."
+      required:
+        - includeCicd
+      properties:
+        includeCicd:
+          title: Submit a pull request with GKE Cloud Deploy CI/CD configuration for your newly created repository?
+          type: boolean
+          default: false
+      dependencies:
+        includeCicd:
+          oneOf:
+            - properties:
+                includeCicd:
+                  enum:
+                    - false
+            - properties:
+                includeCicd:
+                  enum:
+                    - true
+                projectIdNp:
+                  title: GCP Non-Prod Project ID
+                  description: Non-Prod GCP project where CICD will be run
+                  type: string
+                  pattern: '^\S+$'
+                gkeCluster:
+                  title: Name of the GKE cluster in non-prod
+                  type: string
+                  enum: 
+                    - private-na-ne1-001
+                    # - public-yul-np-002
+                    # - private-yul-np-001
+                    # - devops-yul-np-002
+                    # - lab-yul-np-001
+                  enumNames:
+                    - private-na-ne1-001
+                  default: private-na-ne1-001
+                namespace:
+                  title: Namespace
+                  description: Namespace assigned to you in the GKE cluster
+                  type: string
+                  pattern: '^\S+$'
+              required:
+                - projectIdNp
+                - gkeCluster
+                - namespace
+          
+  # here's the steps that are executed in series in the scaffolder backend
+  steps:
+    - id: createRepoWorkflow
+      name: Start Repo Creation Workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: github.com?owner=telus&repo=arch-code-template-base-dev
+        workflowId: create-repo-from-simplify.yaml
+        branchOrTagName: main
+        workflowInputs:
+          repoName: ${{ (parameters.repoUrl | parseRepoUrl).repo }}
+          inputJson: >
+           {
+              "name": "${{ (parameters.repoUrl | parseRepoUrl).repo }}",
+              "cmdbId": ${{ parameters.cmdb_id }},
+              "ownerUser": "${{ parameters.user }}",
+              "ownerTeam": "${{ parameters.owner }}",
+              "createdFrom": "backstage-dev",
+              "emailAddress": "${{ parameters.emailAddress }}",
+              "includeCicd": "${{ parameters.includeCicd }}",
+              "maintainerTeam": "${{ parameters.maintainerTeam }}",
+              "triageTeam": "${{ parameters.triageTeam }}",
+              "writeTeam": "${{ parameters.writeTeam }}",
+              "adminTeam": "${{ parameters.adminTeam }}",
+              "includeBranchProtection": "${{ parameters.branchProtection }}",
+              "branchProtection": {
+                "branchProtectionName": "${{ parameters.branchProtectionName }}",
+                "branchProtectionRequirePullRequest": "${{ parameters.branchProtectionRequirePullRequest }}",
+                "branchProtectionRequireApproval": "${{ parameters.branchProtectionRequireApproval }}",
+                "requireReviewFromCodeOwners": "${{ parameters.requireReviewFromCodeOwners }}",
+                "requireStatusChecksToPassBeforeMerging": "${{ parameters.requireStatusChecksToPassBeforeMerging }}",
+                "requireBranchesToBeUpToDateBeforeMerging": "${{ parameters.requireBranchesToBeUpToDateBeforeMerging }}",
+                "requireSignedCommits": "${{ parameters.requireSignedCommits }}"
+              },
+              "sampleCode": {
+                "programmingLanguage": "${{ parameters.nodeFramework }}",
+                "gcpServiceSample": "${{ parameters.gcpServiceSample }}"
+              },
+              "gcstorage": {
+                "storageBucket": "${{ parameters.storageBucket }}",
+                "projectId": "${{ parameters.projectId }}"
+              },
+              "secretmgr": {
+                "sampleSecret": "${{ parameters.sampleSecret }}",
+                "projectId": "${{ parameters.projectId }}"
+              },
+              "firestore": {
+                "firestoreCollection": "${{ parameters.firestoreCollection }}",
+                "projectId": "${{ parameters.projectId }}"
+              },
+              "pubsub": {
+                "projectId": "${{ parameters.projectId }}",
+                "topicName": "${{ parameters.topicName }}",
+                "subscriptionName": "${{ parameters.subscriptionName }}"
+              },
+              "memstore": {
+                "redisIp": "${{ parameters.redisIp }}",
+                "redisPort": "${{ parameters.redisPort }}",
+                "redisName": "${{ parameters.redisName }}"
+              },
+              "postgresql": {
+                "projectId": "${{ parameters.projectId }}",
+                "dbName": "${{ parameters.dbName }}",
+                "secretUserKey": "${{ parameters.secretUserKey }}",
+                "secretKeyName": "${{ parameters.secretKeyName }}"
+              },
+              "gqlPsql": {
+                "dbName": "${{ parameters.dbName }}",
+                "secretUserKey": "${{ parameters.secretUserKey }}",
+                "secretKeyName": "${{ parameters.secretKeyName }}",
+                "projectId": "${{ parameters.projectId }}"
+              },
+              "apiClient": {
+                "projectId": "${{ parameters.projectId }}",
+                "clientIdSecretName": "${{ parameters.clientIdSecretName }}",
+                "clientSecretName": "${{ parameters.clientSecretName }}",
+                "apiScope": "${{ parameters.apiScope }}",
+                "apigwTokenUrl": "${{ parameters.apiGwTokenUrl }}",
+                "apiEndpointUrl": "${{ parameters.apiEndpointUrl }}"
+              },
+              "primavera": {
+                "dnsName": "${{ parameters.dnsName }}",
+                "aRecordName": "${{ parameters.aRecordName }}"
+              },
+              "cicd": {
+                "projectIdNp": "${{ parameters.projectIdNp }}",
+                "application": "${{ (parameters.repoUrl | parseRepoUrl).repo }}",
+                "gkeCluster": "${{ parameters.gkeCluster }}",
+                "namespace": "${{ parameters.namespace }}",
+                "repository": "${{ (parameters.repoUrl | parseRepoUrl).repo }}",
+                "port": "8080",
+                "branch": "main",
+                "from_openshift": "no",
+                "starterkit": "true"
+              },
+              "unleashClient": {
+                "projectId": "${{ parameters.projectId }}",
+                "unleashClientSecretName": "${{ parameters.unleashGCPSecretName }}",
+                "unleashFlagName": "${{ parameters.unleashToggleName }}"
+              }
+            }
+          
+    - id: onboard-unleash
+      name: Onboard onto Unleash
+      if: ${{ parameters.unleashOnboard and parameters.gcpServiceSample == "unleashClient"}}
+      action: github:actions:dispatch
+      input:
+        repoUrl: github.com?owner=telus&repo=arch-code-template-base-dev
+        workflowId: unleash-setup.yaml
+        branchOrTagName: main
+        workflowInputs:
+          unleash_project_id: ${{ parameters.unleashProjectID }}
+          unleash_project_name: ${{ parameters.unleashProjectName }}
+          unleash_new_project_desc: ${{ parameters.unleashProjectDesc }}
+          create_new_project: ${{ parameters.unleashOnboard }}
+          unleash_toggle_name: ${{ parameters.unleashToggleName }}
+          user_email: ${{ parameters.emailAddress }}
+          
+    - id: pause
+      name: Pause for Repo Creation
+      action: roadiehq:utils:sleep
+      input:
+        amount: 20
+
+    - id: pause-for-creation-message
+      name: Please be patient with us as this process may take a few minutes
+      action: roadiehq:utils:sleep
+      input:
+        amount: 0
+    
+    - id: pause-for-welcome-email-message
+      name: Please wait for the welcome email to ensure your repository is completely configured before visiting the repository links below.
+      action: roadiehq:utils:sleep
+      input:
+        amount: 0
+      
+  output:
+    links:
+      - title: Your new repository ...
+        url: https://github.com/telus/${{ (parameters.repoUrl | parseRepoUrl).repo }}
+      # - title: Your new Postman API (if you created one) ...
+      #   url: https://telus-enterprise.postman.co/workspace/552948a8-7875-46d7-89b4-239d90d67a80
+      - title: Your new Unleash Project (if you created one) ...
+        url: https://us.app.unleash-hosted.com/usff0019/projects/${{parameters.unleashProjectID}}
+      - title: Please rate your experience...
+        url: https://forms.gle/Ptah4nA2a1NK3iqw6
+  

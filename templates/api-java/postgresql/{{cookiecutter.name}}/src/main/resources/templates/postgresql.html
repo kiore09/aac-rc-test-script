@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Postgresql Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Postgresql Demo</h1>
+
+    <a href="/">Click Here</a> to return to the index page
+
+    <hr class="solid">
+
+    <p>Data from table:</br>===========</br></p>
+    <p th:text="${excdata}" />  <!-- Element to display error message if any -->
+    
+    <table>
+        <tr>
+          <th>first_name</th>
+          <th>last_name</th>
+          <th>email</th>
+          <th>created_on</th>
+        </tr>
+        <tr th:each="contact : ${contactList}">
+          <td th:text="${contact.getFirstName()}"></td>
+          <td th:text="${contact.getLastName()}"></td>
+          <td th:text="${contact.getEmail()}"></td>
+          <td th:text="${contact.getCreatedOn()}"></td>
+        </tr>
+      <table>
+</body>
+</html>

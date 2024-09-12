@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <body>
+        <h1>Birthday Calculator</h1>
+        <div>
+            <p>Enter you name, birth month, and birth date below: </p>
+            
+            <form th:action="@{/birthday}" method="post">
+                <label>Name:</label><br>
+                <input type="text" th:name="name" placeholder="Your Name" /><br>
+
+                <label>Birth Month:</label><br>
+                <input type="text" th:name="birthMonth" placeholder="1-12" /><br>
+
+                <label>Birth Date:</label><br>
+                <input type="text" th:name="birthDay" placeholder="1-31" /><br><br>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </body>
+</html>

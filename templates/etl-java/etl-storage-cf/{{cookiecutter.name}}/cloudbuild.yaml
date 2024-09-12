@@ -1,0 +1,37 @@
+steps:
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: Deploy Java ETL function
+    args:
+      - gcloud
+      - functions
+      - deploy
+      - ${_FUNCTION_TITLE}
+      - --source=${_SOURCE}
+      - --no-gen2
+      - --runtime=${_RUNTIME}
+      - --trigger-bucket=${_SOURCE_BUCKET}
+      - --region=${_REGION}
+      - --entry-point=${_FUNCTION_NAME}
+      - --set-env-vars=TARGET_BUCKET=${_TARGET_BUCKET}
+      - --ingress-settings=internal-only
+
+substitutions:
+  # Name of the function that will show up in the GCP console
+  _FUNCTION_TITLE: ETLFunction
+
+  # Fully qualified name of the function class containing the entry point
+  _FUNCTION_NAME: com.samples.telus.ETLFunction
+
+  # Points to the directory containing the pom.xml file
+  _SOURCE: .
+
+  # Runtime language and version
+  _RUNTIME: java17
+
+  # Region where the function will be deployed
+  _REGION: northamerica-northeast1
+
+  # By default, the function targets the buckets in np
+  # Replace with production bucket names when deploying to pr
+  _SOURCE_BUCKET: {{ cookiecutter.etlStorageCf.sourceBucket }}_np
+  _TARGET_BUCKET: {{ cookiecutter.etlStorageCf.targetBucket }}_np

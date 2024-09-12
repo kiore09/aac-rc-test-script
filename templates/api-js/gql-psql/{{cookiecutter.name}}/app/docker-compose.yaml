@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  db-local:
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'ENTER-VALUE'
+      POSTGRES_DB: graphql
+
+  pg-admin:
+    depends_on: [db-local]
+    image: dpage/pgadmin4:6.19
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'admin@email.com'
+      PGADMIN_DEFAULT_PASSWORD: 'ENTER-VALUE'

@@ -1,0 +1,111 @@
+name: Prepare Merge to Prod-Repo
+on:
+  workflow_dispatch:
+    inputs:
+      versionNumber:
+        type: string
+        description: The version number for release
+
+permissions:
+  contents: write
+
+jobs:
+  update_workflows: 
+    runs-on: ubuntu-latest     
+    name: Update Workflows...
+    permissions:
+      contents: 'write'      
+      id-token: 'write'
+    env:
+      SECRET_ID: projects/767430792619/secrets/arc-gh-wrkflw-token
+      WL_SERVICE_ACCOUNT: sar-arc-gh-wrkflw-token@cdo-eptools-helper-np-b4c0da.iam.gserviceaccount.com   
+    steps:
+      - name: check repo name
+        if: ${{ github.event.repository.name == 'arch-as-code-template-base'}}
+        run: |
+          echo "this workflow should not be executed in the production repo!"
+          exit 1
+      
+      - name: setting up gcp auth
+        uses: actions/checkout@v4
+      
+      - id: 'gcp-auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ secrets.CDO_WORKLOAD_IDENTITY_PROVIDER_GCP }} 
+          service_account: '${{ env.WL_SERVICE_ACCOUNT }}'
+      - id: 'secrets'
+        uses: 'google-github-actions/get-secretmanager-secrets@v2'
+        with:
+          secrets: |-
+            token:${{ env.SECRET_ID }}
+      - name: store_token
+        run: |
+          echo "GCP_TOKEN=${{ steps.secrets.outputs.token }}" >> $GITHUB_ENV
+      
+      - uses: actions/checkout@v4
+        with:
+          # Generate a new personal access token with the workflow `scope` does the trick.
+          token: ${{ env.GCP_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: update the workflows
+        run: |
+          sed -i "s/createdFrom=github-dev/createdFrom=github/" ./.github/workflows/setup-repository.yaml
+          sed -i "/.*repoVersion=.*/c\          repoVersion=\"${{ github.event.inputs.versionNumber }}\"" ./.github/workflows/setup-repository.yaml
+          sed -i "s/arch-code-template-base-dev/arch-code-template-base/g" ./.github/workflows/setup-repository.yaml
+          echo "updated setup-repository.yaml"
+
+          sed -i "s/repo=arch-code-template-base-dev/repo=arch-code-template-base/g" ./java-template.yaml
+          sed -i 's/"createdFrom": "backstage-dev"/"createdFrom": "backstage"/g' ./java-template.yaml
+          echo "updated ./java-template.yaml"
+
+          sed -i "s/repo=arch-code-template-base-dev/repo=arch-code-template-base/g" ./js-template.yaml
+          sed -i 's/"createdFrom": "backstage-dev"/"createdFrom": "backstage"/g' ./js-template.yaml
+          echo "updated ./js-template.yaml"
+
+          sed -i "s/repo=arch-code-template-base-dev/repo=arch-code-template-base/g" ./cqrs-template.yaml
+          sed -i 's/"createdFrom": "backstage-dev"/"createdFrom": "backstage"/g' ./cqrs-template.yaml
+          echo "updated ./cqrs-template.yaml" 
+
+          sed -i "s/repo=arch-code-template-base-dev/repo=arch-code-template-base/g" ./eda-template.yaml
+          sed -i 's/"createdFrom": "backstage-dev"/"createdFrom": "backstage"/g' ./eda-template.yaml
+          echo "updated ./eda-template.yaml"
+
+          sed -i "s/repo=arch-code-template-base-dev/repo=arch-code-template-base/g" ./etl-template.yaml
+          sed -i 's/"createdFrom": "backstage-dev"/"createdFrom": "backstage"/g' ./etl-template.yaml
+          echo "updated ./etl-template.yaml"
+
+          sed -i "s/repo=arch-code-template-base-dev/repo=arch-code-template-base/g" ./dlp-template.yaml
+          sed -i 's/"createdFrom": "backstage-dev"/"createdFrom": "backstage"/g' ./dlp-template.yaml
+          echo "updated ./dlp-template.yaml"
+
+          sed -i "s/repo=arch-code-template-base-dev/repo=arch-code-template-base/g" ./nextjs-template.yaml
+          sed -i 's/"createdFrom": "backstage-dev"/"createdFrom": "backstage"/g' ./nextjs-template.yaml
+          echo "updated ./nextjs-template.yaml"
+
+      - name: commit the changes
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add --all
+          git commit -m 'update to merge sprint ${{ github.event.inputs.versionNumber }}'
+          
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ env.GCP_TOKEN }}
+          branch: prod-merge-sprint-${{ github.event.inputs.versionNumber }}
+          branch-suffix: timestamp
+          title: 'Prepare to merge Sprint ${{ github.event.inputs.versionNumber }}'
+          body: |
+            Update report
+            - Updated ./github/workflows/setup-repository.yaml 
+            - updated ./java-template.yaml
+            - updated ./js-template.yaml
+            - updated ./cqrs-template.yaml
+            - updated ./eda-template.yaml
+            - updated ./etl-template.yaml
+            - updated ./dlp-template.yaml
+            - updated ./nextjs-template.yaml
+            with new version number: ${{ github.event.inputs.versionNumber }}
+            

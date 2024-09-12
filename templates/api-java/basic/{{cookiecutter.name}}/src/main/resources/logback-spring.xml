@@ -1,0 +1,36 @@
+<configuration>
+    <!-- Single-line JSON appender example for GCP -->
+    <appender name="CONSOLE_JSON" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <!-- Pattern defining the log message -->
+                <pattern>
+                    <pattern>
+                        {"timestamp": "%date{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}", "level": "%level" , "thread": "%thread", "logger": "%logger", "message" : "%message %exception{5}", "context": "%contextName"}
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+
+    <!--
+    Example profile for environments "test", "dev", "st", "pr", and the default environment.
+    Prints single-line JSON logs to the console.
+    -->
+    <springProfile name="default,test,dev,st,pr">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE_JSON"/>
+        </root>
+    </springProfile>
+
+    <!--
+    Select other appenders for different profiles by declaring another <springProfile>
+    
+    <springProfile name="someOtherProfile">
+        <root level="DEBUG">
+            <appender-ref ref="SOME_OTHER_APPENDER"/>
+        </root>
+    </springProfile>
+    -->
+    
+</configuration>

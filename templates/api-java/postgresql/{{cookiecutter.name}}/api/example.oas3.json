@@ -1,0 +1,103 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Sample API with Springdocs",
+    "description": "This is a simple API application made with Spring Boot 3.0 and Springdocs",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://springdoc.org"
+    },
+    "version": "v0.0.1"
+  },
+  "externalDocs": {
+    "description": "Springdoc OpenAPI 3.0 Documentation",
+    "url": "https://github.com/springdoc/springdoc-openapi"
+  },
+  "servers": [
+    {
+      "url": "http://localhost",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["demo-api-controller"],
+        "summary": "Get all users",
+        "description": "Returns all users in the \"database\" in a rendered view",
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "get": {
+        "tags": ["demo-api-controller"],
+        "summary": "Get user by id",
+        "description": "Returns the user with the input id",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No user found with input id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  },
+  "x-api-engagement-num": "910",
+  "x-apiname": "demoApiName",
+  "x-cmdbid": "21740",
+  "x-responsetime": "3000",
+  "x-tmfdomain": "common",
+  "x-tps": "1000"
+}

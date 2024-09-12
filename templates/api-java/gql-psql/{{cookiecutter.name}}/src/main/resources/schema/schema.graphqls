@@ -1,0 +1,29 @@
+type customer{
+id: Int
+firstName: String
+lastName: String
+birthDate: String
+}
+
+type item{
+id: Int
+name: String
+price: Float
+}
+
+type order{
+id: Int
+createdTime: String
+customer: customer
+items: [item]
+}
+
+type Query{
+customerList: [customer]
+customer( id: Int): customer
+customers(limit: Int, skip: Int, sort_field: String, sort_order: String): [customer]
+item(id: Int ): item
+items(limit: Int, skip: Int, sort_field: String, sort_order: String): [item]
+order(id: Int): order
+orders(limit: Int, skip: Int, sort_field: String, sort_order: String): [order]
+}

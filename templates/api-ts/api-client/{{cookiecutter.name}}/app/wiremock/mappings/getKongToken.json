@@ -1,0 +1,21 @@
+{
+    "request": {
+        "method": "POST",
+        "urlPathPattern": "/st/token"
+    },
+    "response": {
+        "status": 202,
+        "headers": {
+            "Content-Type": "application/json",
+            "Pragma": "no-cache",
+            "Expires": "Thu, 01 Jan 1970 00:00:00 GMT",
+            "Set-Cookie": "PF=crvPl7rFuDjYAAX82UAS5L;Path=/;Secure;HttpOnly;SameSite=None",
+            "Kong-Request-ID": "257f4955-7b8c-4f4f-9e15-1a68871e6ef2#42244",
+            "vary": "Origin",
+            "X-Kong-Upstream-Latency": "15",
+            "X-Kong-Proxy-Latency": "25",
+            "Via": "kong/2.3.3.2-enterprise-edition"
+        },
+        "bodyFileName": "../__files/kongTokenResponseSuccess.json"
+    }
+}

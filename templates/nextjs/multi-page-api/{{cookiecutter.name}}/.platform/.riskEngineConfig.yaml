@@ -1,0 +1,21 @@
+riskThreshold: 30
+automatedReleaseApproved: false
+useGithubEvents: true
+groupConfigProfile: BasicConfig
+ignoredFiles:
+  - "package-lock.json"
+  - "notes/**"
+  # Add additional file or folder paths that should be ignored from Risk Engine analysis i.e. generated files with no inherent risk
+  # e.g. Add a pattern to match mocked files used in testing: - "**/mocks/**"
+# riskInputs:
+#   - name: prDescription
+#     prTemplatePath: ".github/pull_request_template.md"
+#   - name: testCoverage
+#     covReportPath: "coverage/coverage-summary.json"
+#     coverageReportType: "jsonSummary"
+#   - name: changedFiles
+#     matchChangesGlobPatterns:
+#       '**/*.md': low
+#       '**/*.js': medium
+#       routes/**: high
+#       config/**: critical

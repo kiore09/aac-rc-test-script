@@ -1,0 +1,29 @@
+steps:
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    id: deploy event-driven ETL node function
+    args:
+      - gcloud
+      - functions
+      - deploy
+      - ${_FUNCTION_TITLE}
+      - --source=${_SOURCE}
+      - --no-gen2
+      - --runtime=${_RUNTIME}
+      - --trigger-bucket=${_SOURCE_BUCKET}
+      - --region=${_REGION}
+      - --entry-point=${_FUNCTION_NAME}
+      - --set-env-vars=GCP_PROJECT=${PROJECT_ID},TARGET_BUCKET=${_TARGET_BUCKET}
+      - --ingress-settings=internal-only
+
+substitutions:
+  _NODE_VERSION: "20"
+  _FUNCTION_TITLE: TransformHandlerPython
+  _FUNCTION_NAME: TransformHandlerPython
+  _SOURCE: .
+  _RUNTIME: python312
+  _REGION: northamerica-northeast1
+
+  # By default, the function targets the buckets in np
+  # Replace with production bucket names when deploying to pr
+  _SOURCE_BUCKET: {{cookiecutter.etlStorageCf.sourceBucket}}_np
+  _TARGET_BUCKET: {{cookiecutter.etlStorageCf.targetBucket}}_np

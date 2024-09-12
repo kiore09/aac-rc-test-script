@@ -1,0 +1,57 @@
+"use strict";
+// [START cloud_sql_postgres_knex_connect_tcp]
+// [START cloud_sql_postgres_knex_connect_tcp_sslcerts]
+const Knex = require("knex");
+const fs = require("fs");
+const con = require("../../config");
+const secretManager = require("./secret-manager");
+const logger = require("./sample.logger");
+/**
+ * Function that calls GCP secret manager method: accessSecretVersion() to retrieve secret
+ * @param req Express request object
+ * @param res Express request object
+ */
+const getSecretValue = async (secret) => {
+  const secretName = `projects/${con.projectId}/secrets/${secret}/versions/latest`; // Ex: projects/123456789/secrets/sample-secret-id/versions/version-number
+  try {
+    const version = await secretManager.getSecret(secretName);
+    // Decode secret value
+    return new TextDecoder("utf-8").decode(version.payload.data);
+  } catch (error) {
+    logger.error(`An Error Occurred: ${error}`);
+  }
+}
+
+// createTcpPool initializes a TCP connection pool for a Cloud SQL
+// instance of Postgres.
+const createTcpPool = async (config) => {
+  // Extract host and port from socket address
+  const dbSocketAddr = con.dbHost.split(":"); // e.g. '127.0.0.1:5432'
+  // Note: Saving credentials in environment variables is convenient, but not
+  // secure - consider a more secure solution such as
+  // Cloud Secret Manager (https://cloud.google.com/secret-manager) to help
+  // keep secrets safe.
+  const dbUser = await getSecretValue(con.dbUser); // get database username
+  logger.info(`Retrieving database username...`);
+  const dbPass = await getSecretValue(con.dbKeyName); // get database password
+  logger.info(`Retrieving database password...`);
+  const dbConfig = {
+    client: "pg", // e.g. 'pg' for Postgresql, 'mysql' for MySQL
+    connection: {
+      user: dbUser, // e.g. 'db-user'
+      password: dbPass, // e.g. 'db-password'
+      database: con.database, // e.g. 'database'
+      host: dbSocketAddr[0], // e.g. '127.0.0.1'
+      port: dbSocketAddr[1], // e.g. '5432'
+    },
+    // ... Specify additional properties here.
+    ...config,
+  };
+  // [END cloud_sql_postgres_knex_connect_tcp]
+
+  // [START cloud_sql_postgres_knex_connect_tcp]
+  // Establish a connection to the database.
+  return Knex(dbConfig);
+};
+// [END cloud_sql_postgres_knex_connect_tcp]
+module.exports = createTcpPool;

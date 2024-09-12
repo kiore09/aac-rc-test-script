@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>Postgresql Demo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Postgresql Demo</h1>
+
+    <a href="/">Click Here</a> to return to the index page
+
+    <hr class="solid">
+
+    <p>Data from table:</br>===========</br></p>
+    <p th:text="${excdata}" />  <!-- Element to display error message if any -->
+    
+    <table>
+        <tr>
+          <th>first_name</th>
+          <th>last_name</th>
+          <th>email</th>
+          <th>created_on</th>
+        </tr>
+        <% data && data.forEach(child => { %>
+          <tr>
+                <td><%= child.first_name  %> </td>
+                <td><%= child.last_name  %> </td>
+                <td><%= child.email  %> </td>
+                <td><%= child.created_on  %> </td>
+          </tr>
+        <% }) %> 
+      <table>
+        <% if(locals.error) { %> 
+    <div>ERROR: Exception Caught - <%= error %> </div>
+    <% } %> 
+</body>
+</html>

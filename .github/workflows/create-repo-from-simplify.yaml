@@ -1,0 +1,88 @@
+name: Create Repo (Simplify Trigger)
+on:
+  workflow_dispatch:
+    inputs:
+      repoName:
+        type: string
+        description: 'Name of the repo to be created, without the "telus/" preffix'
+      inputJson:
+        type: string
+        description: 'JSON string of the input parameters for the new repo'
+
+jobs:
+  createNewRepo:
+    runs-on: ubuntu-latest
+    name: Create Target Repo from Template Repo
+    
+    permissions:
+      id-token: 'write'
+      contents: 'write'
+      
+    env:
+      SECRET_ID: projects/767430792619/secrets/arc-gh-wrkflw-token
+      WL_SERVICE_ACCOUNT: sar-arc-gh-wrkflw-token@cdo-eptools-helper-np-b4c0da.iam.gserviceaccount.com
+      
+    steps:
+      - id: 'gcp-auth'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: ${{ secrets.CDO_WORKLOAD_IDENTITY_PROVIDER_GCP }}
+          service_account: '${{ env.WL_SERVICE_ACCOUNT }}'
+          
+      - id: 'secrets'
+        uses: 'google-github-actions/get-secretmanager-secrets@v2'
+        with:
+          secrets: |-
+            token:${{ env.SECRET_ID }}
+            
+      - name: Store Token into Output
+        run: |-
+          echo "GCP_TOKEN=${{ steps.secrets.outputs.token }}" >> $GITHUB_ENV
+          
+      - name: Create Target Repo
+        env:
+          GH_TOKEN: ${{ env.GCP_TOKEN }}
+        run: |-
+          gh repo create telus/${{ github.event.inputs.repoName }} --internal --template="${{ github.repository }}"
+          
+      - name: Assign Team and Admin to Target Repo
+        env:
+          GH_TOKEN: ${{ env.GCP_TOKEN }}
+        continue-on-error: true
+        run: |
+          creatorUser=$(echo ${{ fromJson(github.event.inputs.inputJson).ownerUser }} | sed 's/.*\///')
+          gh api -X PUT /repos/telus/${{ github.event.inputs.repoName }}/collaborators/$creatorUser -f permission='admin'
+          ownerTeam=$(echo ${{ fromJson(github.event.inputs.inputJson).ownerTeam }} | sed 's/.*\///')
+          gh api -X PUT /orgs/telus/teams/$ownerTeam/repos/telus/${{ github.event.inputs.repoName }} -f permission='push'
+
+      - name: Checkout Target Repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ env.GCP_TOKEN }}
+          repository: telus/${{ github.event.inputs.repoName }}
+      
+      - name: Save JSON Inputs to File
+        run: |
+          echo '${{ github.event.inputs.inputJson }}' > ./input.json
+          sed -i 's/"cmdbId": ,/"cmdbId": 0,/' ./input.json
+          sed -i 's/"ownerUser": ".*\//"ownerUser": "/' ./input.json
+          sed -i 's/"ownerTeam": ".*\//"ownerTeam": "/' ./input.json
+          cat ./input.json
+
+      - name: Convert JSON File to YAML Output
+        uses: fabasoad/data-format-converter-action@main
+        id: jsonToYaml
+        with:
+          input: "./input.json"
+          from: "json"
+          to: "yaml"
+          
+      - name: Replace cookiecutter.yaml with YAML Output in Target Repo
+        run: |
+          echo "${{ steps.jsonToYaml.outputs.output }}" > ./cookiecutter.yaml
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add --all
+          git commit -m "Update cookiecutter.yaml: Generated commit"
+          git push
+          
