@@ -1,5 +1,5 @@
 # Enter a project name (typically, same as your repo name)
-name: enter-your-project-name
+name: aac-rc-memstore-js-1
 
 # Enter a cmdbId value, the default value is 0000
 
@@ -8,8 +8,8 @@ cmdbId: 12345
 # Enter a owner team value (the default value is telus),
 # your github username, and your email address
 ownerTeam: telus
-ownerUser: github-username
-emailAddress: "your-telus-email@telus.com"
+ownerUser: kiore09
+emailAddress: "ricardo.chicas@telus.com"
 
 # set to true to include .devcontainer files for GitHub CodeSpaces
 includeDevContainer: true
@@ -18,7 +18,7 @@ includeDevContainer: true
 maintainerTeam: na
 triageTeam: na
 writeTeam: na
-adminTeam: your_admin_team
+adminTeam: architecture-as-code
 
 # Set to true, and uncomment this section to include branch protection
 includeBranchProtection: false
@@ -73,9 +73,9 @@ includeBranchProtection: false
 
 ## Uncomment this section and enter programming language and gcp service option for the sample application
 ##----------------------------------
-# sampleCode:
-#    programmingLanguage : java
-#    gcpServiceSample : basic
+sampleCode:
+   programmingLanguage : java
+   gcpServiceSample : memstore
 
 ##----------------------------------
 ## gcstorage settings
@@ -124,10 +124,10 @@ includeBranchProtection: false
 ## memstore Settings
 ## Uncomment this section for cloud Memorystore
 ##----------------------------------
-#memstore:
-#  redisIp: redis-instance-ip
-#  redisPort: redis-instance-port
-#  redisName: redis-instance-name
+memstore:
+  redisIp: redis-instance-ip
+  redisPort: redis-instance-port
+  redisName: redis-instance-name
 
 ##----------------------------------
 ## apiClient Settings
@@ -199,10 +199,11 @@ includeBranchProtection: false
 ## edaFsTriggerCf Settings
 ## Uncomment this section for EDA Firestore Trigger Cloud Function sample
 ##----------------------------------
-#edaFsTriggerCf:
-#  cloudFunctionVersion: your-cloud-function-version (choose between: 1gen, 2gen)
+# edaFsTriggerCf:
+#  cloudFunctionVersion: 2gen
 #  firestoreCollection: col-eda-pubsub-demo
 #  edaTopic: eda-demo-topic
+
 
 ##----------------------------------
 ## cqrsCmd Settings
